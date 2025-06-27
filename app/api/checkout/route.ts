@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import Stripe from 'stripe';
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2025-02-24.acacia',
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -8,12 +13,12 @@ export async function POST(request: NextRequest) {
     const courseDetails = {
       standard: {
         name: 'Курс "Стандарт" - Восстановление после измены',
-        price: 49,
+        price: 4900, // $49 in cents
         description: '5 уроков теории + 5 практических занятий + рабочая тетрадь + пожизненный доступ'
       },
       vip: {
         name: 'Курс "VIP" - Восстановление после измены',
-        price: 100,
+        price: 10000, // $100 in cents
         description: 'Всё из тарифа "Стандарт" + индивидуальная консультация + персональная обратная связь'
       }
     };
@@ -24,16 +29,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid course type' }, { status: 400 });
     }
 
-    // For now, return a placeholder response
-    // In production, you would integrate with Stripe here
-    return NextResponse.json({ 
-      sessionId: 'placeholder_session_id',
-      course: course,
-      message: 'This is a demo. Real Stripe integration would create a session here.'
+    // Create Stripe checkout session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: course.name,
+              description: course.description,
+            },
+            unit_amount: course.price,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${request.headers.get('origin')}/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${request.headers.get('origin')}/?canceled=true`,
+      metadata: {
+        courseType,
+      },
     });
 
+    return NextResponse.json({ sessionId: session.id });
+
   } catch (err: any) {
-    console.error('Checkout error:', err);
+    console.error('Stripe error:', err);
     return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }

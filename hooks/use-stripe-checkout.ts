@@ -23,23 +23,29 @@ export const useStripeCheckout = () => {
 
       const data = await response.json();
       
-      // For demo purposes, show course details and redirect to success page
-      const courseDetails = {
-        standard: { name: 'Курс "Стандарт"', price: '$49' },
-        vip: { name: 'Курс "VIP"', price: '$100' }
-      };
-      
-      const course = courseDetails[courseType];
-      
-      // Simulate successful payment flow
-      alert(`Демо-режим оплаты:\n\n${course.name}\nЦена: ${course.price}\n\nВ реальном режиме здесь будет перенаправление на Stripe Checkout.\n\nСейчас перенаправим на страницу успеха для демонстрации.`);
-      
-      // Redirect to success page with demo session ID
-      window.location.href = `/success?session_id=demo_${courseType}_${Date.now()}`;
+      // Check if we have a real sessionId (starts with cs_)
+      if (data.sessionId && data.sessionId.startsWith('cs_')) {
+        // Real Stripe session - redirect to Stripe checkout
+        window.location.href = `https://checkout.stripe.com/c/pay/${data.sessionId}`;
+      } else {
+        // Demo mode - show course details and redirect to success page
+        const courseDetails = {
+          standard: { name: 'Курс "Стандарт"', price: '$49' },
+          vip: { name: 'Курс "VIP"', price: '$100' }
+        };
+        
+        const course = courseDetails[courseType];
+        
+        // Show demo alert
+        alert(`Демо-режим оплаты:\n\n${course.name}\nЦена: ${course.price}\n\nВ реальном режиме здесь будет перенаправление на Stripe Checkout.\n\nСейчас перенаправим на страницу успеха для демонстрации.`);
+        
+        // Redirect to success page with demo session ID
+        window.location.href = `/success?session_id=demo_${courseType}_${Date.now()}`;
+      }
       
     } catch (error) {
       console.error('Checkout error:', error);
-      alert('Произошла ошибка при обработке платежа. В реальном приложении здесь будет полная интеграция с Stripe.');
+      alert('Произошла ошибка при обработке платежа. Пожалуйста, попробуйте еще раз.');
     } finally {
       setLoading(false);
     }
