@@ -1,23 +1,20 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { CheckCircle, Download, Mail, Heart } from 'lucide-react';
 import Link from 'next/link';
 
-export default function SuccessPage() {
+function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
   const [loading, setLoading] = useState(true);
-  const [session, setSession] = useState<any>(null);
 
   useEffect(() => {
-    if (sessionId) {
-      // Here you could verify the session with Stripe if needed
-      setLoading(false);
-    }
-  }, [sessionId]);
+    // Always set loading to false after component mounts
+    setLoading(false);
+  }, []);
 
   if (loading) {
     return (
@@ -71,9 +68,11 @@ export default function SuccessPage() {
           </div>
           
           <div className="mt-8 pt-6 border-t border-gray-100">
-            <p className="text-sm text-gray-500 mb-4">
-              Session ID: {sessionId}
-            </p>
+            {sessionId && (
+              <p className="text-sm text-gray-500 mb-4">
+                Session ID: {sessionId}
+              </p>
+            )}
             
             <Link href="/">
               <motion.button
@@ -88,5 +87,17 @@ export default function SuccessPage() {
         </div>
       </motion.div>
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+      </div>
+    }>
+      <SuccessContent />
+    </Suspense>
   );
 }
