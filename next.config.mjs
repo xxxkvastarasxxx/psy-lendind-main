@@ -10,11 +10,13 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   images: {
     unoptimized: true,
+  },
+  // Ensure serverless functions work on Netlify
+  target: 'serverless',
+  experimental: {
+    serverComponentsExternalPackages: ['stripe'],
   },
 }
 
