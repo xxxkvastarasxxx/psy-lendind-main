@@ -6,6 +6,17 @@
   NODE_VERSION = "18"
   NEXT_TELEMETRY_DISABLED = "1"
 
+# For Next.js API routes
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Redirect all API routes to Netlify Functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/___netlify-handler"
+  status = 200
+
+# Handle all other routes for SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
