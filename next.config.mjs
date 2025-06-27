@@ -13,11 +13,6 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Ensure serverless functions work on Netlify
-  target: 'serverless',
-  experimental: {
-    serverComponentsExternalPackages: ['stripe'],
-  },
 }
 
 export default nextConfig

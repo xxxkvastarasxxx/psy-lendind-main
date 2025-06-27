@@ -37,9 +37,9 @@ function SuccessContent() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6"
+            className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6"
           >
-            <CheckCircle className="w-10 h-10 text-green-600" />
+            <CheckCircle className="w-10 h-10 text-blue-600" />
           </motion.div>
           
           <h1 className="text-2xl font-light text-gray-800 mb-4">
