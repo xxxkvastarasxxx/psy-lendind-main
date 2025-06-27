@@ -29,7 +29,7 @@ export function SparkleEffects({ count = 15 }) {
       {sparkles.map((sparkle) => (
         <motion.div
           key={`sparkle-${sparkle.id}`}
-          className="absolute w-1 h-1 bg-mint-400/60 rounded-full"
+          className="absolute w-1 h-1 bg-blue-400/60 rounded-full"
           style={{
             left: sparkle.left,
             top: sparkle.top,
