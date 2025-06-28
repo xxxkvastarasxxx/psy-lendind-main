@@ -101,25 +101,38 @@ export async function POST(request: NextRequest) {
         metadata: {
           courseType,
         },
+        // Add billing address collection
+        billing_address_collection: 'auto',
+        // Allow promotion codes
+        allow_promotion_codes: true,
       });
 
       console.log('Stripe session created successfully:', session.id);
       return NextResponse.json({ sessionId: session.id, mode: 'live' });
 
     } catch (stripeError: any) {
-      console.error('Stripe error:', {
+      console.error('Stripe error details:', {
         message: stripeError.message,
         type: stripeError.type,
         code: stripeError.code,
+        decline_code: stripeError.decline_code,
+        param: stripeError.param,
+        detail: stripeError.detail,
+        headers: stripeError.headers,
+        requestId: stripeError.requestId,
+        statusCode: stripeError.statusCode,
         stack: stripeError.stack
       });
       
-      // Fallback to demo mode if Stripe fails
+      // Return specific error information
       return NextResponse.json({ 
+        error: `Stripe error: ${stripeError.message}`,
+        errorType: stripeError.type,
+        errorCode: stripeError.code,
         sessionId: `demo_${courseType}_${Date.now()}`,
         course: course,
         mode: 'demo',
-        error: `Stripe error: ${stripeError.message}`
+        reason: 'Stripe checkout creation failed'
       });
     }
 

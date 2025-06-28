@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 
 export const useStripeCheckout = () => {
   const [loading, setLoading] = useState(false);
@@ -28,10 +29,35 @@ export const useStripeCheckout = () => {
       
       // Check if we have a real Stripe sessionId (starts with cs_)
       if (data.sessionId && data.sessionId.startsWith('cs_') && data.mode === 'live') {
-        // Real Stripe session - redirect to Stripe checkout
-        const stripeUrl = `https://checkout.stripe.com/c/pay/${data.sessionId}`;
-        console.log('Redirecting to Stripe:', stripeUrl);
-        window.location.href = stripeUrl;
+        // Real Stripe session - use Stripe's redirect method
+        console.log('Redirecting to Stripe with session:', data.sessionId);
+        
+        // Get the publishable key from environment
+        const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+        
+        if (!publishableKey) {
+          console.error('Stripe publishable key not found');
+          throw new Error('Stripe configuration error');
+        }
+        
+        console.log('Using Stripe publishable key:', publishableKey.substring(0, 15) + '...');
+        
+        // Load Stripe and redirect
+        const stripe = await loadStripe(publishableKey);
+        
+        if (!stripe) {
+          throw new Error('Failed to load Stripe');
+        }
+        
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: data.sessionId,
+        });
+        
+        if (error) {
+          console.error('Stripe redirect error:', error);
+          throw new Error(error.message);
+        }
+        
         return;
       }
       
