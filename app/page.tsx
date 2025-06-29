@@ -430,12 +430,14 @@ export default function LandingPage() {
   const [showFloatingCTA, setShowFloatingCTA] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const { redirectToCheckout, loading } = useStripeCheckout();
+  const { redirectToCheckout, loading, resetLoading } = useStripeCheckout();
 
   // Client-side detection
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    // Reset loading state when component mounts
+    resetLoading();
+  }, [resetLoading]);
 
   // Function to scroll to pricing section
   const scrollToPricing = () => {
@@ -1860,14 +1862,17 @@ export default function LandingPage() {
 
                 <div className="mt-auto">
                   <motion.button
-                    className="w-full bg-gradient-to-r from-primary to-primary/80 text-primary-foreground py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-medium transition-all duration-500 shadow-xl relative overflow-hidden group"
+                    className={`w-full ${loading 
+                      ? 'bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed' 
+                      : 'bg-gradient-to-r from-primary to-primary/80'
+                    } text-primary-foreground py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-medium transition-all duration-500 shadow-xl relative overflow-hidden group`}
                     whileHover={{ 
                       scale: loading ? 1 : 1.02, 
                       y: loading ? 0 : -3,
-                      boxShadow: "0 15px 35px -10px rgba(59, 130, 246, 0.4)"
+                      boxShadow: loading ? undefined : "0 15px 35px -10px rgba(59, 130, 246, 0.4)"
                     }}
                     whileTap={{ scale: loading ? 1 : 0.98 }}
-                    onClick={() => redirectToCheckout('standard')}
+                    onClick={() => !loading && redirectToCheckout('standard')}
                     disabled={loading}
                   >
                     <motion.div
@@ -1876,7 +1881,14 @@ export default function LandingPage() {
                       whileHover={{ x: "100%" }}
                       transition={{ duration: 0.6 }}
                     />
-                    <span className="relative z-10">
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      {loading && (
+                        <motion.div
+                          className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                        />
+                      )}
                       {loading ? 'ОБРАБОТКА...' : 'ЗАПИСАТЬСЯ НА КУРС СТАНДАРТ'}
                     </span>
                   </motion.button>
@@ -1978,14 +1990,17 @@ export default function LandingPage() {
 
                 <div className="mt-auto">
                   <motion.button
-                    className="w-full bg-gradient-to-r from-primary via-blue-600 to-purple-600 text-white py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-medium transition-all duration-500 shadow-xl relative overflow-hidden group"
+                    className={`w-full ${loading 
+                      ? 'bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed' 
+                      : 'bg-gradient-to-r from-primary via-blue-600 to-purple-600'
+                    } text-white py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-medium transition-all duration-500 shadow-xl relative overflow-hidden group`}
                     whileHover={{ 
                       scale: loading ? 1 : 1.02, 
                       y: loading ? 0 : -3,
-                      boxShadow: "0 20px 40px -10px rgba(59, 130, 246, 0.5)"
+                      boxShadow: loading ? undefined : "0 20px 40px -10px rgba(59, 130, 246, 0.5)"
                     }}
                     whileTap={{ scale: loading ? 1 : 0.98 }}
-                    onClick={() => redirectToCheckout('vip')}
+                    onClick={() => !loading && redirectToCheckout('vip')}
                     disabled={loading}
                   >
                     <motion.div
@@ -1994,7 +2009,14 @@ export default function LandingPage() {
                       whileHover={{ x: "100%" }}
                       transition={{ duration: 0.6 }}
                     />
-                    <span className="relative z-10">
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      {loading && (
+                        <motion.div
+                          className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                        />
+                      )}
                       {loading ? 'ОБРАБОТКА...' : 'ЗАПИСАТЬСЯ НА КУРС VIP'}
                     </span>
                   </motion.button>

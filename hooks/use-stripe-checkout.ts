@@ -1,11 +1,49 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 
 export const useStripeCheckout = () => {
   const [loading, setLoading] = useState(false);
 
+  // Reset loading state when component mounts or when user returns to page
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        setLoading(false);
+      }
+    };
+
+    const handleFocus = () => {
+      setLoading(false);
+    };
+
+    // Reset loading state when page becomes visible again
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('focus', handleFocus);
+
+    // Also reset on mount
+    setLoading(false);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, []);
+
   const redirectToCheckout = async (courseType: 'standard' | 'vip') => {
+    // Prevent multiple simultaneous checkout attempts
+    if (loading) {
+      return;
+    }
+
     setLoading(true);
+    
+    // Auto-reset loading state after 30 seconds as a failsafe
+    const timeoutId = setTimeout(() => {
+      setLoading(false);
+    }, 30000);
+
+    // Minimum loading time for better UX (2 seconds)
+    const startTime = Date.now();
     
     try {
       const response = await fetch('/api/checkout', {
@@ -101,12 +139,29 @@ export const useStripeCheckout = () => {
       // Still show success page for demo
       window.location.href = `/success?session_id=demo_error_${courseType}_${Date.now()}`;
     } finally {
-      setLoading(false);
+      clearTimeout(timeoutId);
+      
+      // Ensure minimum loading time of 2 seconds for better UX
+      const elapsedTime = Date.now() - startTime;
+      const minLoadingTime = 2000; // 2 seconds
+      
+      if (elapsedTime < minLoadingTime) {
+        setTimeout(() => {
+          setLoading(false);
+        }, minLoadingTime - elapsedTime);
+      } else {
+        setLoading(false);
+      }
     }
+  };
+
+  const resetLoading = () => {
+    setLoading(false);
   };
 
   return {
     redirectToCheckout,
     loading,
+    resetLoading,
   };
 };
