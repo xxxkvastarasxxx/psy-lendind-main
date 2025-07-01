@@ -641,58 +641,7 @@ export default function LandingPage() {
         }}
       />
 
-      {/* Enhanced Light rays with gradient */}
-      <motion.div
-        className="absolute top-0 left-1/4 w-1 h-full opacity-30"
-        style={{
-          background: "linear-gradient(to bottom, transparent 0%, rgba(59, 130, 246, 0.4) 20%, rgba(168, 85, 247, 0.3) 50%, rgba(59, 130, 246, 0.4) 80%, transparent 100%)"
-        }}
-        animate={{
-          opacity: [0, 0.6, 0],
-          scaleY: [0.5, 1, 0.5],
-          scaleX: [1, 1.5, 1],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
 
-      <motion.div
-        className="absolute top-0 right-1/3 w-1 h-full opacity-25"
-        style={{
-          background: "linear-gradient(to bottom, transparent 0%, rgba(236, 72, 153, 0.3) 25%, rgba(34, 197, 94, 0.2) 50%, rgba(236, 72, 153, 0.3) 75%, transparent 100%)"
-        }}
-        animate={{
-          opacity: [0, 0.5, 0],
-          scaleY: [0.3, 1, 0.3],
-          scaleX: [1, 2, 1],
-        }}
-        transition={{
-          duration: 15,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 6,
-        }}
-      />
-
-      <motion.div
-        className="absolute top-0 right-1/5 w-1 h-full opacity-20"
-        style={{
-          background: "linear-gradient(to bottom, transparent 0%, rgba(139, 69, 19, 0.2) 30%, rgba(168, 85, 247, 0.15) 50%, rgba(139, 69, 19, 0.2) 70%, transparent 100%)"
-        }}
-        animate={{
-          opacity: [0, 0.4, 0],
-          scaleY: [0.4, 1, 0.4],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 9,
-        }}
-      />
 
       {/* Hero Section - Full Screen */}
       <motion.section
