@@ -673,7 +673,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto text-center relative z-10 py-4 sm:py-2">
           {/* Optimized hero content with grouped animations */}
           <motion.div variants={fadeInUp} className="mb-4 sm:mb-4 md:mb-6">
-            <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1">
+            <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-prata text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1">
               <span className="block">Скорая помощь</span>
               <span className="block text-primary/70 font-normal mt-1 sm:mt-1 md:mt-2">при измене</span>
             </h1>
@@ -899,7 +899,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Внутри вас сейчас хаос
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8 sm:mb-12"></div>
@@ -992,7 +992,7 @@ export default function LandingPage() {
               className="bg-white/80 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-primary/20 shadow-xl"
               whileHover={{ scale: 1.02, y: -5 }}
             >
-              <h3 className="text-xl sm:text-2xl font-light text-primary mb-6 sm:mb-8 text-center">
+              <h3 className="text-xl sm:text-2xl font-prata text-primary mb-6 sm:mb-8 text-center">
                 Сомнения в партнере:
               </h3>
               <div className="space-y-4 sm:space-y-6">
@@ -1031,7 +1031,7 @@ export default function LandingPage() {
               className="bg-white/80 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-primary/20 shadow-xl"
               whileHover={{ scale: 1.02, y: -5 }}
             >
-              <h3 className="text-xl sm:text-2xl font-light text-primary mb-6 sm:mb-8 text-center">
+              <h3 className="text-xl sm:text-2xl font-prata text-primary mb-6 sm:mb-8 text-center">
                 И что еще более разрушительно — сомнения в себе:
               </h3>
               <div className="space-y-4 sm:space-y-6">
@@ -1182,7 +1182,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-16 sm:mb-20"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Курс состоит из пяти трансформационных модулей
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
@@ -1269,7 +1269,7 @@ export default function LandingPage() {
                     <module.icon className="w-8 h-8 text-white" />
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl sm:text-2xl font-light text-primary mb-4 sm:mb-6">
+                    <h3 className="text-xl sm:text-2xl font-prata text-primary mb-4 sm:mb-6">
                       {module.title}
                     </h3>
                     <h4 className="text-base sm:text-lg font-medium text-primary/80 mb-3 sm:mb-4">
@@ -1317,7 +1317,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Гарантированные результаты для вас
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
@@ -1396,7 +1396,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Представьте, как вы:
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
@@ -1472,7 +1472,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Что делает "Скорую помощь" уникальной:
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
@@ -1553,7 +1553,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Что говорят женщины
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6 sm:mb-8"></div>
@@ -1631,7 +1631,7 @@ export default function LandingPage() {
             className="text-center mb-12 sm:mb-16"
           >
             <motion.h2 
-              className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8"
+              className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -1685,7 +1685,7 @@ export default function LandingPage() {
 
               <div className="relative z-10 flex flex-col h-full">
                 <div className="text-center mb-6 sm:mb-8">
-                  <h3 className="text-xl sm:text-2xl font-light text-primary mb-2">
+                  <h3 className="text-xl sm:text-2xl font-prata text-primary mb-2">
                     Стандарт
                   </h3>
                   <motion.div 
@@ -1799,7 +1799,7 @@ export default function LandingPage() {
 
               <div className="relative z-10 flex flex-col h-full">
                 <div className="text-center mb-6 sm:mb-8">
-                  <h3 className="text-xl sm:text-2xl font-light text-primary mb-2">
+                  <h3 className="text-xl sm:text-2xl font-prata text-primary mb-2">
                     VIP
                   </h3>
                   <motion.div 
@@ -1913,7 +1913,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Об авторе
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
@@ -1936,7 +1936,7 @@ export default function LandingPage() {
               </div>
 
               <div className="flex-1 text-center lg:text-left">
-                <h3 className="text-2xl sm:text-3xl font-light text-primary mb-3 sm:mb-4">
+                <h3 className="text-2xl sm:text-3xl font-prata text-primary mb-3 sm:mb-4">
                   Светлана Цыганова
                 </h3>
                 <p className="text-lg sm:text-xl text-primary/70 mb-6 sm:mb-8">
@@ -2006,7 +2006,7 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Часто задаваемые вопросы
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
@@ -2044,7 +2044,7 @@ export default function LandingPage() {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                   className="overflow-hidden"
                 >
-                  <div className="px-6 sm:px-8 pb-6 sm:pb-8">
+                  <div className="px-3 sm:px-4 pb-4 sm:pb-6 pt-3 sm:pt-4">
                     <p className="text-primary/80 leading-relaxed text-sm sm:text-base">
                       {faq.answer}
                     </p>
@@ -2072,7 +2072,7 @@ export default function LandingPage() {
       >
         <div className="max-w-4xl mx-auto text-center">
           <motion.div variants={fadeInUp}>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-primary mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               Вы не обязаны справляться с этим одна
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-8 sm:mb-12"></div>
