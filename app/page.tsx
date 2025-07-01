@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import {
   Play,
@@ -23,7 +23,7 @@ import {
   HelpCircle,
   ChevronDown,
 } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useStripeCheckout } from "@/hooks/use-stripe-checkout";
 
 // Add CSS keyframes for testimonial carousel
@@ -42,7 +42,7 @@ if (typeof window !== 'undefined') {
   document.head.appendChild(styleSheet);
 }
 
-// Enhanced SparkleEffects component with hydration-safe implementation
+// Enhanced SparkleEffects component with hydration-safe implementation and reduced motion support
 function SparkleEffects({ count = 15 }) {
   const [sparkles, setSparkles] = useState<Array<{
     id: number;
@@ -54,13 +54,14 @@ function SparkleEffects({ count = 15 }) {
     color: string;
   }>>([]);
   const [isClient, setIsClient] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
   useEffect(() => {
-    if (!isClient) return;
+    if (!isClient || shouldReduceMotion) return;
     
     const colors = [
       'bg-blue-400/60',
@@ -81,14 +82,14 @@ function SparkleEffects({ count = 15 }) {
       color: colors[i % colors.length],
     }));
     setSparkles(newSparkles);
-  }, [count, isClient]);
+  }, [count, isClient, shouldReduceMotion]);
 
-  if (!isClient) {
-    return null; // Avoid rendering on server
+  if (!isClient || shouldReduceMotion) {
+    return null; // Avoid rendering on server or if reduced motion is preferred
   }
 
   return (
-    <>
+    <motion.div className="absolute inset-0 pointer-events-none">
       {sparkles.map((sparkle) => (
         <motion.div
           key={`sparkle-${sparkle.id}`}
@@ -103,30 +104,30 @@ function SparkleEffects({ count = 15 }) {
             opacity: [0, 1, 0.6, 0],
             scale: [0, 1.5, 1, 0],
             rotate: [0, 180],
-            y: [0, -15, 0],
           }}
           transition={{
             duration: sparkle.duration,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             delay: sparkle.delay,
             ease: "easeInOut",
           }}
         />
       ))}
-    </>
+    </motion.div>
   );
 }
 
-// Enhanced FloatingOrbs component with hydration-safe implementation
+// Enhanced FloatingOrbs component with hydration-safe implementation and reduced motion support
 function FloatingOrbs() {
   const [isClient, setIsClient] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  if (!isClient) {
-    return null; // Avoid rendering on server
+  if (!isClient || shouldReduceMotion) {
+    return null; // Avoid rendering on server or if reduced motion is preferred
   }
 
   const orbConfigs = [
@@ -157,7 +158,7 @@ function FloatingOrbs() {
   ];
 
   return (
-    <>
+    <motion.div className="absolute inset-0 pointer-events-none">
       {orbConfigs.map((orb, i) => (
         <motion.div
           key={`orb-${i}`}
@@ -177,51 +178,59 @@ function FloatingOrbs() {
           }}
           transition={{
             duration: 25,
-            repeat: Number.POSITIVE_INFINITY,
+            repeat: Infinity,
             ease: "easeInOut",
             delay: orb.delay,
           }}
         />
       ))}
-    </>
+    </motion.div>
   );
 }
 
+// Optimized animation variants - focus on transform and opacity only
 const fadeInUp = {
-  initial: { opacity: 0, y: 100 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 1.4, ease: [0.25, 0.46, 0.45, 0.94] },
+  initial: { opacity: 0, transform: "translateY(60px)" },
+  animate: { opacity: 1, transform: "translateY(0px)" },
+  transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] },
 };
 
 const slideInLeft = {
-  initial: { opacity: 0, x: -100 },
-  animate: { opacity: 1, x: 0 },
-  transition: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] },
+  initial: { opacity: 0, transform: "translateX(-60px)" },
+  animate: { opacity: 1, transform: "translateX(0px)" },
+  transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
 };
 
 const slideInRight = {
-  initial: { opacity: 0, x: 100 },
-  animate: { opacity: 1, x: 0 },
-  transition: { duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] },
+  initial: { opacity: 0, transform: "translateX(60px)" },
+  animate: { opacity: 1, transform: "translateX(0px)" },
+  transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
 };
 
 const scaleIn = {
-  initial: { opacity: 0, scale: 0.8 },
-  animate: { opacity: 1, scale: 1 },
-  transition: { duration: 1.3, ease: [0.25, 0.46, 0.45, 0.94] },
+  initial: { opacity: 0, transform: "scale(0.9)" },
+  animate: { opacity: 1, transform: "scale(1)" },
+  transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
 };
 
+// Optimized stagger container with reduced children delay
 const staggerContainer = {
   animate: {
     transition: {
-      staggerChildren: 0.2,
+      staggerChildren: 0.1,
     },
   },
 };
 
-// Enhanced Auto-Sliding Testimonials Carousel (Pure CSS Animation - No User Interaction)
+const listItemVariants = {
+  initial: { opacity: 0, transform: "translateY(20px)" },
+  animate: { opacity: 1, transform: "translateY(0px)" },
+};
+
+// Enhanced Auto-Sliding Testimonials Carousel with performance optimizations
 function TestimonialsCarousel() {
   const [isClient, setIsClient] = useState(false);
+  const shouldReduceMotion = useReducedMotion();
 
   const testimonials = [
     {
@@ -287,13 +296,13 @@ function TestimonialsCarousel() {
         contain: 'layout style paint'
       }}
     >
-      {/* Pure CSS Auto-Sliding Carousel Container - Completely Isolated */}
+      {/* Optimized CSS Auto-Sliding Carousel Container */}
       <div
         className="flex gap-6"
         style={{ 
           width: '200%',
-          animation: 'autoSlide 45s linear infinite',
-          willChange: 'transform',
+          animation: shouldReduceMotion ? 'none' : 'autoSlide 45s linear infinite',
+          willChange: shouldReduceMotion ? 'auto' : 'transform',
           backfaceVisibility: 'hidden',
           transform: 'translateZ(0)', // Force hardware acceleration
           pointerEvents: 'none',
@@ -431,6 +440,7 @@ export default function LandingPage() {
   const [isClient, setIsClient] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { redirectToCheckout, loading, resetLoading } = useStripeCheckout();
+  const shouldReduceMotion = useReducedMotion();
 
   // Client-side detection
   useEffect(() => {
@@ -440,30 +450,40 @@ export default function LandingPage() {
   }, [resetLoading]);
 
   // Function to scroll to pricing section
-  const scrollToPricing = () => {
+  const scrollToPricing = useCallback(() => {
     const pricingSection = document.getElementById('pricing-section');
     if (pricingSection) {
       pricingSection.scrollIntoView({ 
-        behavior: 'smooth',
+        behavior: shouldReduceMotion ? 'auto' : 'smooth',
         block: 'start'
       });
     }
-  };
+  }, [shouldReduceMotion]);
+
+  // Throttled scroll handler to improve performance
+  const throttledScrollHandler = useCallback(() => {
+    const currentScrollY = window.scrollY;
+    setScrollY(currentScrollY);
+    
+    // Show floating CTA after scrolling 800px
+    setShowFloatingCTA(currentScrollY > 800);
+  }, []);
 
   useEffect(() => {
     if (!isClient) return;
     
+    let timeoutId: NodeJS.Timeout;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrollY(currentScrollY);
-      
-      // Show floating CTA after scrolling 800px
-      setShowFloatingCTA(currentScrollY > 800);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(throttledScrollHandler, 16); // ~60fps throttling
     };
     
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [isClient]);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timeoutId);
+    };
+  }, [isClient, throttledScrollHandler]);
 
   // Handle video playback when isVideoPlaying state changes
   useEffect(() => {
@@ -474,9 +494,9 @@ export default function LandingPage() {
     }
   }, [isVideoPlaying]);
 
-  const toggleFAQ = (index: number) => {
+  const toggleFAQ = useCallback((index: number) => {
     setOpenFAQ(openFAQ === index ? null : index);
-  };
+  }, [openFAQ]);
 
   const faqData = [
     {
@@ -513,374 +533,329 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-100/50 overflow-hidden relative">
-      {/* Enhanced Animated Background Elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        <motion.div
-          className="absolute top-0 left-0 w-full h-full"
-          animate={{
-            background: [
-              "radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)",
-              "radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.15) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%)",
-              "radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 60%), radial-gradient(circle at 60% 10%, rgba(34, 197, 94, 0.08) 0%, transparent 50%)",
-              "radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)",
-            ],
-          }}
-          transition={{
-            duration: 40,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
+      {/* Optimized Animated Background Elements - Single wrapper for better performance */}
+      {!shouldReduceMotion && (
+        <div className="fixed inset-0 pointer-events-none">
+          <motion.div
+            className="absolute inset-0"
+            animate={{
+              background: [
+                "radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)",
+                "radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.15) 0%, transparent 60%), radial-gradient(circle at 20% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%)",
+                "radial-gradient(circle at 40% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 60%), radial-gradient(circle at 60% 10%, rgba(34, 197, 94, 0.08) 0%, transparent 50%)",
+                "radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.15) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%)",
+              ],
+            }}
+            transition={{
+              duration: 40,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+          />
 
-        {/* Enhanced Floating mesh gradients */}
-        <motion.div
-          className="absolute top-10 right-10 w-[500px] h-[500px] rounded-full opacity-25"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 30%, rgba(96, 165, 250, 0.1) 60%, transparent 100%)",
-            filter: "blur(60px)",
-          }}
-          animate={{
-            x: [0, 80, -50, 0],
-            y: [0, -50, 80, 0],
-            scale: [1, 1.3, 0.8, 1],
-            rotate: [0, 180, 360],
-          }}
-          transition={{
-            duration: 35,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-        />
+          {/* Optimized Floating mesh gradients - Combined in single container */}
+          <motion.div 
+            className="absolute inset-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+          >
+            <motion.div
+              className="absolute top-10 right-10 w-[500px] h-[500px] rounded-full opacity-25 blur-[60px]"
+              style={{
+                background: "radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 30%, rgba(96, 165, 250, 0.1) 60%, transparent 100%)",
+              }}
+              animate={{
+                x: [0, 80, -50, 0],
+                y: [0, -50, 80, 0],
+                scale: [1, 1.3, 0.8, 1],
+              }}
+              transition={{
+                duration: 35,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
 
-        <motion.div
-          className="absolute bottom-10 left-10 w-[400px] h-[400px] rounded-full opacity-20"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(59, 130, 246, 0.2) 40%, rgba(34, 197, 94, 0.1) 70%, transparent 100%)",
-            filter: "blur(70px)",
-          }}
-          animate={{
-            x: [0, -60, 100, 0],
-            y: [0, 60, -40, 0],
-            scale: [1, 0.7, 1.4, 1],
-            rotate: [0, -180, -360],
-          }}
-          transition={{
-            duration: 40,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-            delay: 8,
-          }}
-        />
+            <motion.div
+              className="absolute bottom-10 left-10 w-[400px] h-[400px] rounded-full opacity-20 blur-[70px]"
+              style={{
+                background: "radial-gradient(circle, rgba(236, 72, 153, 0.25) 0%, rgba(59, 130, 246, 0.2) 40%, rgba(34, 197, 94, 0.1) 70%, transparent 100%)",
+              }}
+              animate={{
+                x: [0, -60, 100, 0],
+                y: [0, 60, -40, 0],
+                scale: [1, 0.7, 1.4, 1],
+              }}
+              transition={{
+                duration: 40,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 8,
+              }}
+            />
 
-        <motion.div
-          className="absolute top-1/2 left-1/2 w-[300px] h-[300px] rounded-full opacity-15"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(139, 69, 19, 0.2) 0%, rgba(168, 85, 247, 0.15) 50%, transparent 100%)",
-            filter: "blur(50px)",
-            transform: "translate(-50%, -50%)",
-          }}
-          animate={{
-            scale: [1, 1.5, 0.9, 1],
-            rotate: [0, 360],
-            opacity: [0.1, 0.2, 0.05, 0.15],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-            delay: 12,
-          }}
-        />
-      </div>
+            <motion.div
+              className="absolute top-1/2 left-1/2 w-[300px] h-[300px] rounded-full opacity-15 blur-[50px]"
+              style={{
+                background: "radial-gradient(circle, rgba(139, 69, 19, 0.2) 0%, rgba(168, 85, 247, 0.15) 50%, transparent 100%)",
+                transform: "translate(-50%, -50%)",
+              }}
+              animate={{
+                scale: [1, 1.5, 0.9, 1],
+                opacity: [0.1, 0.2, 0.05, 0.15],
+              }}
+              transition={{
+                duration: 25,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 12,
+              }}
+            />
+          </motion.div>
+        </div>
+      )}
 
       {/* Enhanced Sparkle effects - reduced count for performance */}
-      <SparkleEffects count={15} />
+      <SparkleEffects count={shouldReduceMotion ? 0 : 10} />
       
       {/* Floating Orbs */}
       <FloatingOrbs />
-
-      {/* Enhanced Geometric shapes with fixed positioning */}
-      <motion.div
-        className="absolute bottom-1/4 right-1/4 w-32 h-32 border-2 border-primary/30 shadow-lg"
-        style={{ 
-          clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)",
-          background: "linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(168, 85, 247, 0.05) 100%)"
-        }}
-        animate={{
-          rotate: [0, -360],
-          scale: [1, 1.4, 1],
-          opacity: [0.2, 0.5, 0.2],
-        }}
-        transition={{
-          duration: 30,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "linear",
-          delay: 5,
-        }}
-      />
-
-      <motion.div
-        className="absolute top-1/3 left-1/5 w-24 h-24 border-2 border-secondary/40 rounded-full shadow-lg"
-        style={{
-          background: "linear-gradient(45deg, rgba(96, 165, 250, 0.15) 0%, rgba(236, 72, 153, 0.1) 100%)"
-        }}
-        animate={{
-          x: [0, 50, -30, 0],
-          y: [0, -40, 30, 0],
-          scale: [1, 1.2, 0.8, 1],
-          rotate: [0, 180, 360],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 3,
-        }}
-      />
-
-
 
       {/* Hero Section - Full Screen */}
       <motion.section
         className="relative min-h-[100vh] flex items-center justify-center px-4 sm:px-6 py-6 sm:py-4 overflow-hidden"
         initial="initial"
-        animate="animate"
+        whileInView="animate"
+        viewport={{ once: true, margin: "-10%" }}
         variants={staggerContainer}
       >
         {/* Enhanced Wave SVG Background with parallax */}
-        <div 
-          className="absolute bottom-0 left-0 w-full h-20 sm:h-28 md:h-32 overflow-hidden"
-          style={{
-            transform: isClient ? `translateY(${scrollY * 0.1}px)` : 'translateY(0px)',
-          }}
-        >
-          <svg
-            className="absolute bottom-0 w-full h-full"
-            viewBox="0 0 1200 120"
-            preserveAspectRatio="none"
-            style={{ transform: "translateY(1px)" }}
+        {!shouldReduceMotion && (
+          <div 
+            className="absolute bottom-0 left-0 w-full h-20 sm:h-28 md:h-32 overflow-hidden"
+            style={{
+              transform: isClient ? `translateY(${scrollY * 0.05}px)` : 'translateY(0px)',
+            }}
           >
-            <defs>
-              <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(59, 130, 246, 0.2)" />
-                <stop offset="50%" stopColor="rgba(168, 85, 247, 0.15)" />
-                <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
-              </linearGradient>
-              <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(96, 165, 250, 0.15)" />
-                <stop offset="50%" stopColor="rgba(236, 72, 153, 0.1)" />
-                <stop offset="100%" stopColor="rgba(96, 165, 250, 0.15)" />
-              </linearGradient>
-            </defs>
-            <motion.path
-              d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z"
-              fill="url(#waveGradient1)"
-              animate={{
-                d: [
-                  "M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z",
-                  "M0,80 C300,20 600,100 900,40 C1050,10 1150,80 1200,50 L1200,120 L0,120 Z",
-                  "M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z",
-                ],
-              }}
-              transition={{
-                repeat: Number.POSITIVE_INFINITY,
-                duration: 15,
-                ease: "easeInOut",
-              }}
-            />
-            <motion.path
-              d="M0,80 C300,40 600,120 900,80 C1050,50 1150,100 1200,70 L1200,120 L0,120 Z"
-              fill="url(#waveGradient2)"
-              animate={{
-                d: [
-                  "M0,80 C300,40 600,120 900,80 C1050,50 1150,100 1200,70 L1200,120 L0,120 Z",
-                  "M0,50 C300,100 600,30 900,90 C1050,120 1150,40 1200,80 L1200,120 L0,120 Z",
-                  "M0,80 C300,40 600,120 900,80 C1050,50 1150,100 1200,70 L1200,120 L0,120 Z",
-                ],
-              }}
-              transition={{
-                repeat: Number.POSITIVE_INFINITY,
-                duration: 18,
-                ease: "easeInOut",
-                delay: 3,
-              }}
-            />
-          </svg>
-        </div>
+            <svg
+              className="absolute bottom-0 w-full h-full"
+              viewBox="0 0 1200 120"
+              preserveAspectRatio="none"
+              style={{ transform: "translateY(1px)" }}
+            >
+              <defs>
+                <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(59, 130, 246, 0.2)" />
+                  <stop offset="50%" stopColor="rgba(168, 85, 247, 0.15)" />
+                  <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
+                </linearGradient>
+                <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(96, 165, 250, 0.15)" />
+                  <stop offset="50%" stopColor="rgba(236, 72, 153, 0.1)" />
+                  <stop offset="100%" stopColor="rgba(96, 165, 250, 0.15)" />
+                </linearGradient>
+              </defs>
+              <motion.path
+                d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z"
+                fill="url(#waveGradient1)"
+                animate={{
+                  d: [
+                    "M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z",
+                    "M0,80 C300,20 600,100 900,40 C1050,10 1150,80 1200,50 L1200,120 L0,120 Z",
+                    "M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z",
+                  ],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 15,
+                  ease: "easeInOut",
+                }}
+              />
+              <motion.path
+                d="M0,80 C300,40 600,120 900,80 C1050,50 1150,100 1200,70 L1200,120 L0,120 Z"
+                fill="url(#waveGradient2)"
+                animate={{
+                  d: [
+                    "M0,80 C300,40 600,120 900,80 C1050,50 1150,100 1200,70 L1200,120 L0,120 Z",
+                    "M0,50 C300,100 600,30 900,90 C1050,120 1150,40 1200,80 L1200,120 L0,120 Z",
+                    "M0,80 C300,40 600,120 900,80 C1050,50 1150,100 1200,70 L1200,120 L0,120 Z",
+                  ],
+                }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 18,
+                  ease: "easeInOut",
+                  delay: 3,
+                }}
+              />
+            </svg>
+          </div>
+        )}
 
         <div className="max-w-4xl mx-auto text-center relative z-10 py-4 sm:py-2">
+          {/* Optimized hero content with grouped animations */}
           <motion.div variants={fadeInUp} className="mb-4 sm:mb-4 md:mb-6">
-            <motion.h1 
-              className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <motion.span 
-                className="inline-block"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-              >
-                Скорая помощь
-              </motion.span>
-              <motion.span 
-                className="block text-primary/70 font-normal mt-1 sm:mt-1 md:mt-2"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-              >
-                при измене
-              </motion.span>
-            </motion.h1>
-            <motion.p 
-              className="text-base sm:text-base md:text-lg text-primary/80 max-w-3xl mx-auto leading-relaxed font-light px-2 sm:px-4 mt-3 sm:mt-2"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-            >
+            <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1">
+              <span className="block">Скорая помощь</span>
+              <span className="block text-primary/70 font-normal mt-1 sm:mt-1 md:mt-2">при измене</span>
+            </h1>
+            <p className="text-base sm:text-base md:text-lg text-primary/80 max-w-3xl mx-auto leading-relaxed font-light px-2 sm:px-4 mt-3 sm:mt-2">
               Пошаговое руководство после измены партнера для женщин, которые
               хотят справиться с болью и принять решение, о котором не придется
               жалеть.
-            </motion.p>
+            </p>
           </motion.div>
 
-          {/* Enhanced Floating elements with deterministic positioning */}
-          <motion.div
-            className="absolute top-20 left-10 w-40 h-40 rounded-full blur-3xl shadow-2xl"
-            style={{
-              background: "linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 100%)"
-            }}
-            animate={{
-              y: [0, -40, 0],
-              x: [0, 30, 0],
-              opacity: [0.2, 0.5, 0.2],
-              scale: [1, 1.3, 1],
-              rotate: [0, 180, 360],
-            }}
-            transition={{ duration: 12, repeat: Number.POSITIVE_INFINITY }}
-          />
-          <motion.div
-            className="absolute top-40 right-20 w-32 h-32 rounded-full blur-2xl shadow-xl"
-            style={{
-              background: "linear-gradient(45deg, rgba(236, 72, 153, 0.4) 0%, rgba(34, 197, 94, 0.25) 100%)"
-            }}
-            animate={{
-              y: [0, 35, 0],
-              x: [0, -25, 0],
-              opacity: [0.3, 0.7, 0.3],
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 14,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: 1,
-            }}
-          />
-          <motion.div
-            className="absolute bottom-40 right-10 w-48 h-48 rounded-full blur-3xl shadow-2xl"
-            style={{
-              background: "linear-gradient(225deg, rgba(139, 69, 19, 0.2) 0%, rgba(59, 130, 246, 0.15) 100%)"
-            }}
-            animate={{
-              y: [0, 25, 0],
-              x: [0, 20, 0],
-              opacity: [0.1, 0.4, 0.1],
-              scale: [1, 0.7, 1],
-            }}
-            transition={{
-              duration: 16,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: 3,
-            }}
-          />
-
-          <motion.div
-            className="absolute bottom-60 left-16 w-28 h-28 rounded-full blur-xl shadow-lg"
-            style={{
-              background: "linear-gradient(315deg, rgba(168, 85, 247, 0.35) 0%, rgba(14, 165, 233, 0.2) 100%)"
-            }}
-            animate={{
-              y: [0, -20, 0],
-              x: [0, 15, 0],
-              opacity: [0.2, 0.6, 0.2],
-              scale: [1, 1.4, 1],
-            }}
-            transition={{
-              duration: 10,
-              repeat: Number.POSITIVE_INFINITY,
-              delay: 2,
-            }}
-          />
+          {/* Optimized Floating elements with single container */}
+          {!shouldReduceMotion && (
+            <motion.div 
+              className="absolute inset-0 pointer-events-none"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 1 }}
+            >
+              <motion.div
+                className="absolute top-20 left-10 w-40 h-40 rounded-full blur-3xl shadow-2xl"
+                style={{
+                  background: "linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 100%)"
+                }}
+                animate={{
+                  y: [0, -40, 0],
+                  x: [0, 30, 0],
+                  opacity: [0.2, 0.5, 0.2],
+                  scale: [1, 1.3, 1],
+                }}
+                transition={{ duration: 12, repeat: Infinity }}
+              />
+              <motion.div
+                className="absolute top-40 right-20 w-32 h-32 rounded-full blur-2xl shadow-xl"
+                style={{
+                  background: "linear-gradient(45deg, rgba(236, 72, 153, 0.4) 0%, rgba(34, 197, 94, 0.25) 100%)"
+                }}
+                animate={{
+                  y: [0, 35, 0],
+                  x: [0, -25, 0],
+                  opacity: [0.3, 0.7, 0.3],
+                  scale: [1, 1.1, 1],
+                }}
+                transition={{ duration: 14, repeat: Infinity, delay: 1 }}
+              />
+              <motion.div
+                className="absolute bottom-40 right-10 w-48 h-48 rounded-full blur-3xl shadow-2xl"
+                style={{
+                  background: "linear-gradient(225deg, rgba(139, 69, 19, 0.2) 0%, rgba(59, 130, 246, 0.15) 100%)"
+                }}
+                animate={{
+                  y: [0, 25, 0],
+                  x: [0, 20, 0],
+                  opacity: [0.1, 0.4, 0.1],
+                  scale: [1, 0.7, 1],
+                }}
+                transition={{ duration: 16, repeat: Infinity, delay: 3 }}
+              />
+              <motion.div
+                className="absolute bottom-60 left-16 w-28 h-28 rounded-full blur-xl shadow-lg"
+                style={{
+                  background: "linear-gradient(315deg, rgba(168, 85, 247, 0.35) 0%, rgba(14, 165, 233, 0.2) 100%)"
+                }}
+                animate={{
+                  y: [0, -20, 0],
+                  x: [0, 15, 0],
+                  opacity: [0.2, 0.6, 0.2],
+                  scale: [1, 1.4, 1],
+                }}
+                transition={{ duration: 10, repeat: Infinity, delay: 2 }}
+              />
+            </motion.div>
+          )}
 
           <motion.div variants={scaleIn} className="mb-5 sm:mb-6 px-0 sm:px-2">
-            <motion.div 
-              className="relative max-w-lg sm:max-w-xl md:max-w-2xl mx-auto rounded-lg sm:rounded-xl md:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl md:shadow-2xl bg-white/40 backdrop-blur-lg border border-primary/30"
-              whileHover={{ 
-                scale: 1.02, 
-                y: -5,
-                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
-              }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <div className="aspect-video bg-gradient-to-br from-secondary to-muted flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20"></div>
+            <div className="relative max-w-lg sm:max-w-xl md:max-w-2xl mx-auto rounded-lg sm:rounded-xl md:rounded-3xl overflow-hidden shadow-lg sm:shadow-xl md:shadow-2xl border border-primary/20">
+              <div className="aspect-video bg-black flex items-center justify-center relative overflow-hidden">
                 {!isVideoPlaying ? (
                   <>
-                    <video
-                      className="absolute inset-0 w-full h-full object-cover"
-                      poster="/image.png"
-                      preload="metadata"
-                    >
-                      <source src="/my_video.mp4" type="video/mp4" />
-                      Ваш браузер не поддерживает видео.
-                    </video>
-                    <motion.button
-                      onClick={() => setIsVideoPlaying(true)}
-                      className="group flex items-center justify-center w-16 h-16 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white/95 rounded-full shadow-2xl hover:bg-white transition-all duration-700 relative z-10 backdrop-blur-sm border border-white/50"
-                      whileHover={{ scale: 1.15, rotate: 5 }}
-                      whileTap={{ scale: 0.95 }}
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 1.2, type: "spring", stiffness: 300 }}
-                    >
-                      <motion.div
-                        animate={{ 
-                          boxShadow: [
-                            "0 0 0 0 rgba(59, 130, 246, 0.7)",
-                            "0 0 0 20px rgba(59, 130, 246, 0)",
-                          ]
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Number.POSITIVE_INFINITY,
-                        }}
-                        className="absolute inset-0 rounded-full"
+                    <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
+                      {/* Fallback background image */}
+                      <div 
+                        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-60"
+                        style={{ backgroundImage: `url('/image.png')` }}
                       />
+                      <video
+                        className="absolute inset-0 w-full h-full object-cover opacity-70"
+                        muted
+                        preload="metadata"
+                        poster="/image.png"
+                        onLoadedData={() => {
+                          if (videoRef.current) {
+                            videoRef.current.currentTime = 1; // Show first frame
+                          }
+                        }}
+                        ref={videoRef}
+                      >
+                        <source src="/my_video.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                    <motion.button
+                      onClick={() => {
+                        setIsVideoPlaying(true);
+                        // Ensure video starts playing
+                        setTimeout(() => {
+                          if (videoRef.current) {
+                            videoRef.current.currentTime = 0;
+                            videoRef.current.play().catch(console.error);
+                          }
+                        }, 100);
+                      }}
+                      className="group flex items-center justify-center w-16 h-16 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-white rounded-full shadow-2xl hover:bg-white/90 transition-all duration-300 relative z-10"
+                      whileHover={shouldReduceMotion ? {} : { scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.5, type: "spring", stiffness: 300 }}
+                    >
+                      {!shouldReduceMotion && (
+                        <motion.div
+                          animate={{ 
+                            boxShadow: [
+                              "0 0 0 0 rgba(59, 130, 246, 0.7)",
+                              "0 0 0 20px rgba(59, 130, 246, 0)",
+                            ]
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                          }}
+                          className="absolute inset-0 rounded-full"
+                        />
+                      )}
                       <Play className="w-6 h-6 sm:w-6 sm:h-6 md:w-8 md:h-8 text-primary ml-1 group-hover:text-primary/80 drop-shadow-lg" />
                     </motion.button>
                   </>
                 ) : (
                   <video
-                    className="w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
                     ref={videoRef}
                     controls
                     playsInline
                     autoPlay
+                    poster="/image.png"
                     onEnded={() => setIsVideoPlaying(false)}
                   >
                     <source src="/my_video.mp4" type="video/mp4" />
-                    Ваш браузер не поддерживает видео.
+                    Your browser does not support the video tag.
                   </video>
                 )}
               </div>
-            </motion.div>
+            </div>
           </motion.div>
 
           <motion.div variants={slideInLeft} className="mb-5 sm:mb-4 md:mb-6">
-            <div className="flex flex-wrap justify-center gap-5 sm:gap-6 text-primary/70">
+            <motion.div 
+              className="flex flex-wrap justify-center gap-5 sm:gap-6 text-primary/70"
+              variants={staggerContainer}
+            >
               {[
                 { text: "25 лет опыта", color: "bg-primary" },
                 { text: "1000+ женщин", color: "bg-secondary" },
@@ -889,42 +864,39 @@ export default function LandingPage() {
                 <motion.div 
                   key={index}
                   className="flex items-center space-x-2 px-4 py-2 rounded-full bg-white/50 backdrop-blur-sm border border-white/30 shadow-lg"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.8 + index * 0.1, duration: 0.6 }}
+                  variants={listItemVariants}
+                  whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
                 >
                   <motion.div 
                     className={`w-3 h-3 sm:w-2.5 sm:h-2.5 ${item.color} rounded-full shadow-md`}
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, delay: index * 0.3 }}
+                    animate={shouldReduceMotion ? {} : { scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
                   />
                   <span className="text-sm sm:text-sm font-medium">{item.text}</span>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div variants={scaleIn}>
             <motion.button
-              className="bg-gradient-to-r from-primary via-blue-600 to-primary/80 text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-700 shadow-xl hover:shadow-2xl relative overflow-hidden group"
-              whileHover={{ 
-                scale: 1.08, 
-                y: -3,
+              className="bg-primary text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-700 shadow-xl hover:shadow-2xl relative overflow-hidden group"
+              whileHover={shouldReduceMotion ? {} : { 
+                scale: 1.05, 
+                y: -2,
                 boxShadow: "0 20px 40px -12px rgba(59, 130, 246, 0.5)"
               }}
               whileTap={{ scale: 0.98 }}
               onClick={scrollToPricing}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.0, duration: 0.8 }}
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
+              {!shouldReduceMotion && (
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent"
+                  initial={{ x: "-100%" }}
+                  whileHover={{ x: "100%" }}
+                  transition={{ duration: 0.6 }}
+                />
+              )}
               <span className="relative z-10">НАЧАТЬ ВОССТАНОВЛЕНИЕ СЕЙЧАС</span>
             </motion.button>
           </motion.div>
@@ -936,7 +908,7 @@ export default function LandingPage() {
         className="py-16 sm:py-24 lg:py-32 px-4 sm:px-6 relative"
         initial="initial"
         whileInView="animate"
-        viewport={{ once: true, margin: "-100px" }}
+        viewport={{ once: true, margin: "-20%" }}
         variants={staggerContainer}
         style={{
           background: `linear-gradient(135deg, 
@@ -970,44 +942,45 @@ export default function LandingPage() {
             </p>
           </motion.div>
 
-          <motion.div variants={fadeInUp} className="mt-12 sm:mt-16">
-            <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
-              {[
-                {
-                  text: "Женщину с токсичными мыслями, которые крутятся в голове без остановки",
-                  icon: Brain,
-                },
-                {
-                  text: "Женщину, которая чувствует себя нежеланной, брошенной, преданной. С низкой самооценкой",
-                  icon: Heart,
-                },
-                {
-                  text: "Женщину, которая теряет сон, аппетит и саму себя",
-                  icon: AlertTriangle,
-                },
-                {
-                  text: "Женщину, которая раскачивается от ненависти до отчаянного желания все вернуть",
-                  icon: TrendingUp,
-                },
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-white/70 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-primary/20 shadow-lg"
-                  variants={fadeInUp}
-                  transition={{ delay: index * 0.15 }}
-                  whileHover={{ scale: 1.02, y: -5 }}
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
-                      <item.icon className="w-4 h-4 text-primary/70" />
-                    </div>
-                    <p className="text-primary/80 leading-relaxed text-sm sm:text-base">
-                      {item.text}
-                    </p>
+          {/* Optimized list with single container animation */}
+          <motion.div 
+            variants={staggerContainer}
+            className="mt-12 sm:mt-16 grid sm:grid-cols-2 gap-6 sm:gap-8"
+          >
+            {[
+              {
+                text: "Женщину с токсичными мыслями, которые крутятся в голове без остановки",
+                icon: Brain,
+              },
+              {
+                text: "Женщину, которая чувствует себя нежеланной, брошенной, преданной. С низкой самооценкой",
+                icon: Heart,
+              },
+              {
+                text: "Женщину, которая теряет сон, аппетит и саму себя",
+                icon: AlertTriangle,
+              },
+              {
+                text: "Женщину, которая раскачивается от ненависти до отчаянного желания все вернуть",
+                icon: TrendingUp,
+              },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                className="bg-white/70 backdrop-blur-sm p-6 sm:p-8 rounded-2xl border border-primary/20 shadow-lg"
+                variants={listItemVariants}
+                whileHover={shouldReduceMotion ? {} : { scale: 1.02, y: -5 }}
+              >
+                <div className="flex items-start space-x-4">
+                  <div className="w-8 h-8 bg-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                    <item.icon className="w-4 h-4 text-primary/70" />
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                  <p className="text-primary/80 leading-relaxed text-sm sm:text-base">
+                    {item.text}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         </div>
       </motion.section>
