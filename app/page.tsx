@@ -89,31 +89,20 @@ function SparkleEffects({ count = 15 }) {
   }
 
   return (
-    <motion.div className="absolute inset-0 pointer-events-none">
-      {sparkles.map((sparkle) => (
-        <motion.div
+    <div className="absolute inset-0 pointer-events-none">
+      {sparkles.slice(0, 3).map((sparkle) => (
+        <div
           key={`sparkle-${sparkle.id}`}
-          className={`absolute ${sparkle.color} rounded-full`}
+          className={`absolute ${sparkle.color} rounded-full opacity-20`}
           style={{
             left: sparkle.left,
             top: sparkle.top,
             width: `${sparkle.size}px`,
             height: `${sparkle.size}px`,
           }}
-          animate={{
-            opacity: [0, 1, 0.6, 0],
-            scale: [0, 1.5, 1, 0],
-            rotate: [0, 180],
-          }}
-          transition={{
-            duration: sparkle.duration,
-            repeat: Infinity,
-            delay: sparkle.delay,
-            ease: "easeInOut",
-          }}
         />
       ))}
-    </motion.div>
+    </div>
   );
 }
 
@@ -158,11 +147,11 @@ function FloatingOrbs() {
   ];
 
   return (
-    <motion.div className="absolute inset-0 pointer-events-none">
-      {orbConfigs.map((orb, i) => (
-        <motion.div
+    <div className="absolute inset-0 pointer-events-none">
+      {orbConfigs.slice(0, 2).map((orb, i) => (
+        <div
           key={`orb-${i}`}
-          className="absolute rounded-full opacity-15 blur-3xl"
+          className="absolute rounded-full opacity-10 blur-2xl"
           style={{
             background: `radial-gradient(circle, ${orb.color} 0%, transparent 70%)`,
             width: `${orb.size.width}px`,
@@ -170,21 +159,9 @@ function FloatingOrbs() {
             left: orb.position.left,
             top: orb.position.top,
           }}
-          animate={{
-            x: [0, 60, -30, 0],
-            y: [0, -40, 70, 0],
-            scale: [1, 1.2, 0.9, 1],
-            opacity: [0.1, 0.25, 0.1, 0.2],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: orb.delay,
-          }}
         />
       ))}
-    </motion.div>
+    </div>
   );
 }
 
