@@ -1271,78 +1271,46 @@ export default function LandingPage() {
             ].map((module, index) => (
               <motion.div
                 key={index}
-                variants={fadeInUp}
-                className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-primary/20 shadow-xl hover:shadow-2xl transition-all duration-700 relative overflow-hidden group"
-                whileHover={{ 
-                  scale: 1.02, 
-                  y: -12,
-                  boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)"
+                className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-primary/20 shadow-lg relative overflow-hidden group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  delay: index * 0.1, 
+                  duration: 0.4,
+                  ease: "easeOut"
                 }}
-                transition={{ type: "spring", stiffness: 300 }}
+                whileHover={shouldReduceMotion ? {} : { 
+                  scale: 1.02,
+                  transition: { duration: 0.2 }
+                }}
               >
-                {/* Enhanced hover overlay */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/30 opacity-0 group-hover:opacity-100"
-                  transition={{ duration: 0.4 }}
-                />
-                
-                {/* Animated border on hover */}
-                <motion.div
-                  className="absolute inset-0 rounded-3xl border-2 border-transparent"
-                  whileHover={{
-                    borderImage: "linear-gradient(45deg, rgba(59, 130, 246, 0.5), rgba(168, 85, 247, 0.3), rgba(59, 130, 246, 0.5)) 1",
-                  }}
-                />
-
                 <div className="flex flex-col sm:flex-row items-start space-y-6 sm:space-y-0 sm:space-x-6 relative z-10">
-                  <motion.div
-                    className={`w-16 h-16 bg-gradient-to-r ${module.color} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg relative overflow-hidden`}
-                    whileHover={{ 
-                      scale: 1.1, 
-                      rotate: 5,
-                      boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.4)"
-                    }}
-                    transition={{ type: "spring", stiffness: 400 }}
+                  <div
+                    className={`w-16 h-16 bg-gradient-to-r ${module.color} rounded-2xl flex items-center justify-center flex-shrink-0 shadow-lg`}
                   >
-                    <motion.div
-                      className="absolute inset-0 bg-white/20"
-                      initial={{ x: "-100%" }}
-                      whileHover={{ x: "100%" }}
-                      transition={{ duration: 0.6 }}
-                    />
-                    <module.icon className="w-8 h-8 text-white relative z-10" />
-                  </motion.div>
+                    <module.icon className="w-8 h-8 text-white" />
+                  </div>
                   <div className="flex-1">
-                    <motion.h3 
-                      className="text-xl sm:text-2xl font-light text-primary mb-4 sm:mb-6"
-                      whileHover={{ x: 5 }}
-                      transition={{ type: "spring", stiffness: 400 }}
-                    >
+                    <h3 className="text-xl sm:text-2xl font-light text-primary mb-4 sm:mb-6">
                       {module.title}
-                    </motion.h3>
+                    </h3>
                     <h4 className="text-base sm:text-lg font-medium text-primary/80 mb-3 sm:mb-4">
                       Что вы получите:
                     </h4>
                     <div className="space-y-3 sm:space-y-4">
                       {module.benefits.map((benefit, benefitIndex) => (
-                        <motion.div
+                        <div
                           key={benefitIndex}
                           className="flex items-start space-x-3"
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.1 * benefitIndex }}
                         >
-                          <motion.div 
-                            className="w-6 h-6 bg-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1"
-                            whileHover={{ scale: 1.2, rotate: 360 }}
-                            transition={{ type: "spring", stiffness: 400 }}
-                          >
+                          <div className="w-6 h-6 bg-secondary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                             <CheckCircle className="w-4 h-4 text-primary/70" />
-                          </motion.div>
+                          </div>
                           <p className="text-primary/80 leading-relaxed text-sm sm:text-base">
                             {benefit}
                           </p>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </div>
