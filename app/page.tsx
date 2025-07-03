@@ -1523,14 +1523,11 @@ export default function LandingPage() {
         }}
       >
         <div className="max-w-4xl mx-auto">
-          <motion.div
-            variants={fadeInUp}
-            className="text-center mb-12 sm:mb-16"
-          >
+          <motion.div variants={fadeInUp} className="text-left mb-12 sm:mb-16">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
-              Что делает "Скорую помощь" уникальной:
+              Что делает <span className="text-red-800">"Скорую помощь"</span>{" "}
+              уникальной:
             </h2>
-            <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full"></div>
           </motion.div>
 
           <motion.div variants={fadeInUp} className="space-y-6 sm:space-y-8">
