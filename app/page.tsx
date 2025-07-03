@@ -35,24 +35,26 @@ const styles = `
 `;
 
 // Inject styles into document head
-if (typeof window !== 'undefined') {
-  const styleSheet = document.createElement('style');
-  styleSheet.type = 'text/css';
+if (typeof window !== "undefined") {
+  const styleSheet = document.createElement("style");
+  styleSheet.type = "text/css";
   styleSheet.innerText = styles;
   document.head.appendChild(styleSheet);
 }
 
 // Enhanced SparkleEffects component with hydration-safe implementation and reduced motion support
 function SparkleEffects({ count = 15 }) {
-  const [sparkles, setSparkles] = useState<Array<{
-    id: number;
-    left: string;
-    top: string;
-    duration: number;
-    delay: number;
-    size: number;
-    color: string;
-  }>>([]);
+  const [sparkles, setSparkles] = useState<
+    Array<{
+      id: number;
+      left: string;
+      top: string;
+      duration: number;
+      delay: number;
+      size: number;
+      color: string;
+    }>
+  >([]);
   const [isClient, setIsClient] = useState(false);
   const shouldReduceMotion = useReducedMotion();
 
@@ -62,15 +64,15 @@ function SparkleEffects({ count = 15 }) {
 
   useEffect(() => {
     if (!isClient || shouldReduceMotion) return;
-    
+
     const colors = [
-      'bg-softred-300/60',
-      'bg-peach-300/60', 
-      'bg-softred-200/50',
-      'bg-peach-200/50',
-      'bg-rose-300/40'
+      "bg-softred-300/60",
+      "bg-peach-300/60",
+      "bg-softred-200/50",
+      "bg-peach-200/50",
+      "bg-rose-300/40",
     ];
-    
+
     // Use deterministic values to avoid hydration mismatch
     const newSparkles = Array.from({ length: count }).map((_, i) => ({
       id: i,
@@ -121,29 +123,29 @@ function FloatingOrbs() {
 
   const orbConfigs = [
     {
-      color: 'rgba(59, 130, 246, 0.3)',
+      color: "rgba(59, 130, 246, 0.3)",
       size: { width: 180, height: 180 },
-      position: { left: '25%', top: '20%' },
-      delay: 0
+      position: { left: "25%", top: "20%" },
+      delay: 0,
     },
     {
-      color: 'rgba(168, 85, 247, 0.25)',
+      color: "rgba(168, 85, 247, 0.25)",
       size: { width: 150, height: 150 },
-      position: { left: '70%', top: '60%' },
-      delay: 3
+      position: { left: "70%", top: "60%" },
+      delay: 3,
     },
     {
-      color: 'rgba(14, 165, 233, 0.3)',
+      color: "rgba(14, 165, 233, 0.3)",
       size: { width: 120, height: 120 },
-      position: { left: '15%', top: '70%' },
-      delay: 6
+      position: { left: "15%", top: "70%" },
+      delay: 6,
     },
     {
-      color: 'rgba(236, 72, 153, 0.25)',
+      color: "rgba(236, 72, 153, 0.25)",
       size: { width: 160, height: 160 },
-      position: { left: '80%', top: '30%' },
-      delay: 9
-    }
+      position: { left: "80%", top: "30%" },
+      delay: 9,
+    },
   ];
 
   return (
@@ -215,43 +217,43 @@ function TestimonialsCarousel() {
       text: "После курса я поняла, что измена партнера — это не приговор моей женственности. Я научилась управлять своими эмоциями и принимать решения из позиции силы, а не отчаяния.",
       rating: 5,
       situation: "Сохранила отношения",
-      avatar: "/first_testimo.jpg"
+      avatar: "/first_testimo.jpg",
     },
     {
-      name: "Мария, 28 лет", 
+      name: "Мария, 28 лет",
       text: "Самое ценное — это техники работы с тревогой. Раньше я не могла ни на чем сосредоточиться, постоянно прокручивала в голове болезненные сценарии. Теперь у меня есть инструменты контроля.",
       rating: 5,
       situation: "Новые отношения",
-      avatar: "/second_testimo.jpg"
+      avatar: "/second_testimo.jpg",
     },
     {
       name: "Елена, 42 года",
       text: "Курс помог мне понять настоящие причины измены и то, как восстановить доверие. Мы с мужем не только сохранили семью, но и вышли на новый уровень близости.",
       rating: 5,
       situation: "Восстановили семью",
-      avatar: "/third_testimo.jpg"
+      avatar: "/third_testimo.jpg",
     },
     {
       name: "Ольга, 31 год",
       text: "Я благодарна за модуль о самооценке. Измена разрушила мою уверенность, но курс показал, как вернуть ощущение собственной ценности и привлекательности.",
       rating: 5,
       situation: "Работа над собой",
-      avatar: "/fourth_testimo.jpg"
+      avatar: "/fourth_testimo.jpg",
     },
     {
       name: "Светлана, 37 лет",
       text: "Техника 'пространства правды' изменила наше общение кардинально. Партнер начал быть честным без скандалов и допросов. Это было именно то, что нам нужно было.",
       rating: 5,
       situation: "Улучшили отношения",
-      avatar: "/fifth_testimo.jpg"
+      avatar: "/fifth_testimo.jpg",
     },
     {
       name: "Виктория, 29 лет",
       text: "Решение расстаться далось нелегко, но курс помог принять его осознанно, без сожалений. Сейчас я строю новую жизнь и чувствую себя сильной и уверенной.",
       rating: 5,
       situation: "Новая жизнь",
-      avatar: "/sixs_testimo.jpg"
-    }
+      avatar: "/sixs_testimo.jpg",
+    },
   ];
 
   useEffect(() => {
@@ -259,36 +261,36 @@ function TestimonialsCarousel() {
   }, []);
 
   if (!isClient) {
-    return (
-      <div className="h-96 bg-white/50 rounded-3xl animate-pulse mx-4" />
-    );
+    return <div className="h-96 bg-white/50 rounded-3xl animate-pulse mx-4" />;
   }
 
   return (
-    <motion.div 
+    <motion.div
       variants={fadeInUp}
       className="relative overflow-hidden"
-      style={{ 
-        isolation: 'isolate',
-        contain: 'layout style paint'
+      style={{
+        isolation: "isolate",
+        contain: "layout style paint",
       }}
     >
       {/* Optimized CSS Auto-Sliding Carousel Container */}
       <div
         className="flex gap-6"
-        style={{ 
-          width: '200%',
-          animation: shouldReduceMotion ? 'none' : 'autoSlide 45s linear infinite',
-          willChange: shouldReduceMotion ? 'auto' : 'transform',
-          backfaceVisibility: 'hidden',
-          transform: 'translateZ(0)', // Force hardware acceleration
-          pointerEvents: 'none',
-          userSelect: 'none',
-          WebkitUserSelect: 'none',
-          msUserSelect: 'none',
-          touchAction: 'none',
-          animationFillMode: 'forwards',
-          animationTimingFunction: 'linear'
+        style={{
+          width: "200%",
+          animation: shouldReduceMotion
+            ? "none"
+            : "autoSlide 45s linear infinite",
+          willChange: shouldReduceMotion ? "auto" : "transform",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)", // Force hardware acceleration
+          pointerEvents: "none",
+          userSelect: "none",
+          WebkitUserSelect: "none",
+          msUserSelect: "none",
+          touchAction: "none",
+          animationFillMode: "forwards",
+          animationTimingFunction: "linear",
         }}
       >
         {/* First set of testimonials */}
@@ -300,22 +302,25 @@ function TestimonialsCarousel() {
             <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 border border-primary/20 shadow-lg h-full relative overflow-hidden pointer-events-none">
               {/* Static gradient overlay - no hover effects */}
               <div className="absolute inset-0 bg-gradient-to-br from-peach-50/30 to-softred-50/20 opacity-20" />
-              
+
               <div className="relative z-10">
                 {/* Stars rating */}
                 <div className="flex items-center mb-4">
                   <div className="flex space-x-1">
                     {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-peach-400 fill-current" />
+                      <Star
+                        key={i}
+                        className="w-4 h-4 text-peach-400 fill-current"
+                      />
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Testimonial text */}
                 <blockquote className="text-primary/80 mb-4 leading-relaxed text-sm italic line-clamp-4">
                   "{review.text}"
                 </blockquote>
-                
+
                 {/* Author info */}
                 <div className="border-t border-primary/10 pt-4">
                   <div className="flex items-center space-x-3">
@@ -327,8 +332,8 @@ function TestimonialsCarousel() {
                         height={40}
                         className="rounded-full object-cover border-2 border-primary/30"
                         style={{
-                          aspectRatio: '1/1',
-                          objectFit: 'cover'
+                          aspectRatio: "1/1",
+                          objectFit: "cover",
                         }}
                       />
                       <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
@@ -357,22 +362,25 @@ function TestimonialsCarousel() {
             <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-6 border border-primary/20 shadow-lg h-full relative overflow-hidden pointer-events-none">
               {/* Static gradient overlay - no hover effects */}
               <div className="absolute inset-0 bg-gradient-to-br from-peach-50/30 to-softred-50/20 opacity-20" />
-              
+
               <div className="relative z-10">
                 {/* Stars rating */}
                 <div className="flex items-center mb-4">
                   <div className="flex space-x-1">
                     {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-peach-400 fill-current" />
+                      <Star
+                        key={i}
+                        className="w-4 h-4 text-peach-400 fill-current"
+                      />
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Testimonial text */}
                 <blockquote className="text-primary/80 mb-4 leading-relaxed text-sm italic line-clamp-4">
                   "{review.text}"
                 </blockquote>
-                
+
                 {/* Author info */}
                 <div className="border-t border-primary/10 pt-4">
                   <div className="flex items-center space-x-3">
@@ -384,8 +392,8 @@ function TestimonialsCarousel() {
                         height={40}
                         className="rounded-full object-cover border-2 border-primary/30"
                         style={{
-                          aspectRatio: '1/1',
-                          objectFit: 'cover'
+                          aspectRatio: "1/1",
+                          objectFit: "cover",
                         }}
                       />
                       <div className="absolute -bottom-1 -right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
@@ -428,11 +436,11 @@ export default function LandingPage() {
 
   // Function to scroll to pricing section
   const scrollToPricing = useCallback(() => {
-    const pricingSection = document.getElementById('pricing-section');
+    const pricingSection = document.getElementById("pricing-section");
     if (pricingSection) {
-      pricingSection.scrollIntoView({ 
-        behavior: shouldReduceMotion ? 'auto' : 'smooth',
-        block: 'start'
+      pricingSection.scrollIntoView({
+        behavior: shouldReduceMotion ? "auto" : "smooth",
+        block: "start",
       });
     }
   }, [shouldReduceMotion]);
@@ -441,20 +449,20 @@ export default function LandingPage() {
   const throttledScrollHandler = useCallback(() => {
     const currentScrollY = window.scrollY;
     setScrollY(currentScrollY);
-    
+
     // Show floating CTA after scrolling 800px
     setShowFloatingCTA(currentScrollY > 800);
   }, []);
 
   useEffect(() => {
     if (!isClient) return;
-    
+
     let timeoutId: NodeJS.Timeout;
     const handleScroll = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(throttledScrollHandler, 16); // ~60fps throttling
     };
-    
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -471,9 +479,12 @@ export default function LandingPage() {
     }
   }, [isVideoPlaying]);
 
-  const toggleFAQ = useCallback((index: number) => {
-    setOpenFAQ(openFAQ === index ? null : index);
-  }, [openFAQ]);
+  const toggleFAQ = useCallback(
+    (index: number) => {
+      setOpenFAQ(openFAQ === index ? null : index);
+    },
+    [openFAQ]
+  );
 
   const faqData = [
     {
@@ -531,7 +542,7 @@ export default function LandingPage() {
           />
 
           {/* Optimized Floating mesh gradients - Combined in single container */}
-          <motion.div 
+          <motion.div
             className="absolute inset-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -540,7 +551,8 @@ export default function LandingPage() {
             <motion.div
               className="absolute top-10 right-10 w-[500px] h-[500px] rounded-full opacity-25 blur-[60px]"
               style={{
-                background: "radial-gradient(circle, rgba(239, 68, 68, 0.3) 0%, rgba(251, 113, 133, 0.2) 30%, rgba(244, 114, 182, 0.1) 60%, transparent 100%)",
+                background:
+                  "radial-gradient(circle, rgba(239, 68, 68, 0.3) 0%, rgba(251, 113, 133, 0.2) 30%, rgba(244, 114, 182, 0.1) 60%, transparent 100%)",
               }}
               animate={{
                 x: [0, 80, -50, 0],
@@ -557,7 +569,8 @@ export default function LandingPage() {
             <motion.div
               className="absolute bottom-10 left-10 w-[400px] h-[400px] rounded-full opacity-20 blur-[70px]"
               style={{
-                background: "radial-gradient(circle, rgba(251, 146, 60, 0.25) 0%, rgba(239, 68, 68, 0.2) 40%, rgba(252, 165, 165, 0.1) 70%, transparent 100%)",
+                background:
+                  "radial-gradient(circle, rgba(251, 146, 60, 0.25) 0%, rgba(239, 68, 68, 0.2) 40%, rgba(252, 165, 165, 0.1) 70%, transparent 100%)",
               }}
               animate={{
                 x: [0, -60, 100, 0],
@@ -575,7 +588,8 @@ export default function LandingPage() {
             <motion.div
               className="absolute top-1/2 left-1/2 w-[300px] h-[300px] rounded-full opacity-15 blur-[50px]"
               style={{
-                background: "radial-gradient(circle, rgba(244, 114, 182, 0.2) 0%, rgba(251, 113, 133, 0.15) 50%, transparent 100%)",
+                background:
+                  "radial-gradient(circle, rgba(244, 114, 182, 0.2) 0%, rgba(251, 113, 133, 0.15) 50%, transparent 100%)",
                 transform: "translate(-50%, -50%)",
               }}
               animate={{
@@ -595,7 +609,7 @@ export default function LandingPage() {
 
       {/* Enhanced Sparkle effects - reduced count for performance */}
       <SparkleEffects count={shouldReduceMotion ? 0 : 10} />
-      
+
       {/* Floating Orbs */}
       <FloatingOrbs />
 
@@ -609,10 +623,12 @@ export default function LandingPage() {
       >
         {/* Enhanced Wave SVG Background with parallax */}
         {!shouldReduceMotion && (
-          <div 
+          <div
             className="absolute bottom-0 left-0 w-full h-20 sm:h-28 md:h-32 overflow-hidden"
             style={{
-              transform: isClient ? `translateY(${scrollY * 0.05}px)` : 'translateY(0px)',
+              transform: isClient
+                ? `translateY(${scrollY * 0.05}px)`
+                : "translateY(0px)",
             }}
           >
             <svg
@@ -622,12 +638,24 @@ export default function LandingPage() {
               style={{ transform: "translateY(1px)" }}
             >
               <defs>
-                <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient
+                  id="waveGradient1"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
                   <stop offset="0%" stopColor="rgba(59, 130, 246, 0.2)" />
                   <stop offset="50%" stopColor="rgba(168, 85, 247, 0.15)" />
                   <stop offset="100%" stopColor="rgba(59, 130, 246, 0.2)" />
                 </linearGradient>
-                <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient
+                  id="waveGradient2"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
                   <stop offset="0%" stopColor="rgba(96, 165, 250, 0.15)" />
                   <stop offset="50%" stopColor="rgba(236, 72, 153, 0.1)" />
                   <stop offset="100%" stopColor="rgba(96, 165, 250, 0.15)" />
@@ -673,20 +701,22 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto text-center relative z-10 py-4 sm:py-2">
           {/* Optimized hero content with grouped animations */}
           <motion.div variants={fadeInUp} className="mb-4 sm:mb-4 md:mb-6">
-            <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl font-prata text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1">
+            <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-prata font-medium text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1">
               <span className="block">Скорая помощь</span>
-              <span className="block text-primary/70 font-normal mt-1 sm:mt-1 md:mt-2">при измене</span>
+              <span className="block text-primary/70 font-medium mt-0 md:mt-2">
+                при измене
+              </span>
             </h1>
             <p className="text-base sm:text-base md:text-lg text-primary/80 max-w-3xl mx-auto leading-relaxed font-light px-2 sm:px-4 mt-3 sm:mt-2">
               Пошаговое руководство после измены партнера для женщин, которые
               хотят справиться с болью и принять решение, о котором не придется
-              жалеть.
+              жалеть
             </p>
           </motion.div>
 
           {/* Optimized Floating elements with single container */}
           {!shouldReduceMotion && (
-            <motion.div 
+            <motion.div
               className="absolute inset-0 pointer-events-none"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -695,7 +725,8 @@ export default function LandingPage() {
               <motion.div
                 className="absolute top-20 left-10 w-40 h-40 rounded-full blur-3xl shadow-2xl"
                 style={{
-                  background: "linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 100%)"
+                  background:
+                    "linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(168, 85, 247, 0.2) 100%)",
                 }}
                 animate={{
                   y: [0, -40, 0],
@@ -708,7 +739,8 @@ export default function LandingPage() {
               <motion.div
                 className="absolute top-40 right-20 w-32 h-32 rounded-full blur-2xl shadow-xl"
                 style={{
-                  background: "linear-gradient(45deg, rgba(236, 72, 153, 0.4) 0%, rgba(34, 197, 94, 0.25) 100%)"
+                  background:
+                    "linear-gradient(45deg, rgba(236, 72, 153, 0.4) 0%, rgba(34, 197, 94, 0.25) 100%)",
                 }}
                 animate={{
                   y: [0, 35, 0],
@@ -719,30 +751,22 @@ export default function LandingPage() {
                 transition={{ duration: 14, repeat: Infinity, delay: 1 }}
               />
               <motion.div
-                className="absolute bottom-40 right-10 w-48 h-48 rounded-full blur-3xl shadow-2xl"
+                className="absolute top-1/2 left-1/2 w-[300px] h-[300px] rounded-full opacity-15 blur-[50px]"
                 style={{
-                  background: "linear-gradient(225deg, rgba(139, 69, 19, 0.2) 0%, rgba(59, 130, 246, 0.15) 100%)"
+                  background:
+                    "radial-gradient(circle, rgba(244, 114, 182, 0.2) 0%, rgba(251, 113, 133, 0.15) 50%, transparent 100%)",
+                  transform: "translate(-50%, -50%)",
                 }}
                 animate={{
-                  y: [0, 25, 0],
-                  x: [0, 20, 0],
-                  opacity: [0.1, 0.4, 0.1],
-                  scale: [1, 0.7, 1],
+                  scale: [1, 1.5, 0.9, 1],
+                  opacity: [0.1, 0.2, 0.05, 0.15],
                 }}
-                transition={{ duration: 16, repeat: Infinity, delay: 3 }}
-              />
-              <motion.div
-                className="absolute bottom-60 left-16 w-28 h-28 rounded-full blur-xl shadow-lg"
-                style={{
-                  background: "linear-gradient(315deg, rgba(168, 85, 247, 0.35) 0%, rgba(14, 165, 233, 0.2) 100%)"
+                transition={{
+                  duration: 25,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 12,
                 }}
-                animate={{
-                  y: [0, -20, 0],
-                  x: [0, 15, 0],
-                  opacity: [0.2, 0.6, 0.2],
-                  scale: [1, 1.4, 1],
-                }}
-                transition={{ duration: 10, repeat: Infinity, delay: 2 }}
               />
             </motion.div>
           )}
@@ -754,7 +778,7 @@ export default function LandingPage() {
                   <>
                     <div className="absolute inset-0 w-full h-full bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
                       {/* Fallback background image */}
-                      <div 
+                      <div
                         className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-60"
                         style={{ backgroundImage: `url('/image.png')` }}
                       />
@@ -790,15 +814,19 @@ export default function LandingPage() {
                       whileTap={{ scale: 0.95 }}
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      transition={{ delay: 0.5, type: "spring", stiffness: 300 }}
+                      transition={{
+                        delay: 0.5,
+                        type: "spring",
+                        stiffness: 300,
+                      }}
                     >
                       {!shouldReduceMotion && (
                         <motion.div
-                          animate={{ 
+                          animate={{
                             boxShadow: [
                               "0 0 0 0 rgba(59, 130, 246, 0.7)",
                               "0 0 0 20px rgba(59, 130, 246, 0)",
-                            ]
+                            ],
                           }}
                           transition={{
                             duration: 2,
@@ -829,27 +857,33 @@ export default function LandingPage() {
           </motion.div>
 
           <motion.div variants={slideInLeft} className="mb-5 sm:mb-4 md:mb-6">
-            <motion.div 
+            <motion.div
               className="flex flex-wrap justify-center gap-5 sm:gap-6 text-primary/70"
               variants={staggerContainer}
             >
               {[
                 { text: "25 лет опыта", color: "bg-primary" },
                 { text: "1000+ женщин", color: "bg-secondary" },
-                { text: "Научный подход", color: "bg-muted" }
+                { text: "Научный подход", color: "bg-muted" },
               ].map((item, index) => (
-                <motion.div 
+                <motion.div
                   key={index}
                   className="flex items-center space-x-2 px-4 py-2 rounded-full bg-white/50 backdrop-blur-sm border border-white/30 shadow-lg"
                   variants={listItemVariants}
                   whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className={`w-3 h-3 sm:w-2.5 sm:h-2.5 ${item.color} rounded-full shadow-md`}
                     animate={shouldReduceMotion ? {} : { scale: [1, 1.2, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, delay: index * 0.3 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      delay: index * 0.3,
+                    }}
                   />
-                  <span className="text-sm sm:text-sm font-medium">{item.text}</span>
+                  <span className="text-sm sm:text-sm font-medium">
+                    {item.text}
+                  </span>
                 </motion.div>
               ))}
             </motion.div>
@@ -858,11 +892,15 @@ export default function LandingPage() {
           <motion.div variants={scaleIn}>
             <motion.button
               className="bg-primary text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-700 shadow-xl hover:shadow-2xl relative overflow-hidden group"
-              whileHover={shouldReduceMotion ? {} : { 
-                scale: 1.05, 
-                y: -2,
-                boxShadow: "0 20px 40px -12px rgba(239, 68, 68, 0.5)"
-              }}
+              whileHover={
+                shouldReduceMotion
+                  ? {}
+                  : {
+                      scale: 1.05,
+                      y: -2,
+                      boxShadow: "0 20px 40px -12px rgba(239, 68, 68, 0.5)",
+                    }
+              }
               whileTap={{ scale: 0.98 }}
               onClick={scrollToPricing}
             >
@@ -874,7 +912,9 @@ export default function LandingPage() {
                   transition={{ duration: 0.6 }}
                 />
               )}
-              <span className="relative z-10">НАЧАТЬ ВОССТАНОВЛЕНИЕ СЕЙЧАС</span>
+              <span className="relative z-10">
+                НАЧАТЬ ВОССТАНОВЛЕНИЕ СЕЙЧАС
+              </span>
             </motion.button>
           </motion.div>
         </div>
@@ -921,7 +961,7 @@ export default function LandingPage() {
           </motion.div>
 
           {/* Optimized list with single container animation */}
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             className="mt-12 sm:mt-16 grid sm:grid-cols-2 gap-6 sm:gap-8"
           >
@@ -984,9 +1024,9 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <p className="text-lg sm:text-xl text-primary/80 leading-relaxed max-w-3xl mx-auto mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8">
               После измены партнера сомнения атакуют вас с двух сторон:
-            </p>
+            </h2>
           </motion.div>
 
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12">
@@ -1074,18 +1114,18 @@ export default function LandingPage() {
             className="mt-12 sm:mt-16 text-center"
           >
             <div className="bg-gradient-to-r from-secondary/50 to-muted/50 backdrop-blur-sm p-8 sm:p-10 rounded-3xl border border-primary/20 shadow-lg">
-              <p className="text-base sm:text-lg text-primary/80 leading-relaxed max-w-4xl mx-auto mb-6">
+              <p className="text-base sm:text-lg text-primary/80 leading-relaxed max-w-4xl mx-auto mb-6 text-left">
                 Эта неопределенность парализует. Она превращает каждый день в
                 мучительное зависание между противоречивыми импульсами:
                 уйти/остаться, простить/наказать, верить/контролировать.
               </p>
-              <p className="text-base sm:text-lg text-primary/80 leading-relaxed max-w-4xl mx-auto mb-6">
+              <p className="text-base sm:text-lg text-primary/80 leading-relaxed max-w-4xl mx-auto mb-6 text-left">
                 При этом рядом нет никого, кто мог бы дать четкие,
                 структурированные ответы. Друзья и родные будут советовать из
                 собственного опыта, который может кардинально отличаться от
                 вашей ситуации.
               </p>
-              <p className="text-base sm:text-lg text-primary/80 leading-relaxed max-w-4xl mx-auto">
+              <p className="text-base sm:text-lg text-primary/80 leading-relaxed max-w-4xl mx-auto text-left">
                 В результате вы оказываетесь в информационном вакууме в момент,
                 когда больше всего нуждаетесь в ясности и понимании.
               </p>
@@ -1114,10 +1154,10 @@ export default function LandingPage() {
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <p className="text-lg sm:text-xl text-softred-700 leading-relaxed max-w-3xl mx-auto mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-prata text-softred-700 leading-relaxed max-w-3xl mx-auto mb-8">
               Женщины, которые не получают квалифицированной помощи, часто
               совершают непоправимые ошибки:
-            </p>
+            </h2>
           </motion.div>
 
           <motion.div variants={fadeInUp} className="space-y-6 sm:space-y-8">
@@ -1258,15 +1298,19 @@ export default function LandingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  delay: index * 0.1, 
+                transition={{
+                  delay: index * 0.1,
                   duration: 0.4,
-                  ease: "easeOut"
+                  ease: "easeOut",
                 }}
-                whileHover={shouldReduceMotion ? {} : { 
-                  scale: 1.02,
-                  transition: { duration: 0.2 }
-                }}
+                whileHover={
+                  shouldReduceMotion
+                    ? {}
+                    : {
+                        scale: 1.02,
+                        transition: { duration: 0.2 },
+                      }
+                }
               >
                 <div className="flex flex-col sm:flex-row items-start space-y-6 sm:space-y-0 sm:space-x-6 relative z-10">
                   <div
@@ -1569,7 +1613,8 @@ export default function LandingPage() {
             </h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6 sm:mb-8"></div>
             <p className="text-lg sm:text-xl text-primary/80 max-w-3xl mx-auto">
-              Реальные истории женщин, которые прошли через измену и нашли свой путь к исцелению
+              Реальные истории женщин, которые прошли через измену и нашли свой
+              путь к исцелению
             </p>
           </motion.div>
 
@@ -1590,22 +1635,26 @@ export default function LandingPage() {
                       key={i}
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
-                      transition={{ delay: i * 0.1, type: "spring", stiffness: 400 }}
+                      transition={{
+                        delay: i * 0.1,
+                        type: "spring",
+                        stiffness: 400,
+                      }}
                     >
                       <Star className="w-6 h-6 text-peach-400 fill-current drop-shadow-lg" />
                     </motion.div>
                   ))}
                 </div>
-                
+
                 {/* Rating */}
-                <motion.span 
+                <motion.span
                   className="text-3xl font-light text-primary"
                   whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
                   4.9/5
                 </motion.span>
-                
+
                 {/* Testimonial count */}
                 <div className="text-center sm:text-left">
                   <p className="text-lg text-primary/80 font-medium">
@@ -1638,12 +1687,12 @@ export default function LandingPage() {
             rgba(255, 228, 196, 0.6) 100%)`,
         }}
       >
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             variants={fadeInUp}
             className="text-center mb-12 sm:mb-16"
           >
-            <motion.h2 
+            <motion.h2
               className="text-3xl sm:text-4xl md:text-5xl font-prata text-primary mb-6 sm:mb-8"
               whileHover={{ scale: 1.02 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -1652,7 +1701,7 @@ export default function LandingPage() {
             </motion.h2>
             <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6 sm:mb-8"></div>
             <div className="space-y-3 sm:space-y-4">
-              <motion.p 
+              <motion.p
                 className="text-lg sm:text-xl text-primary/80"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -1661,14 +1710,14 @@ export default function LandingPage() {
                 Полная стоимость курса:{" "}
                 <span className="line-through text-muted-foreground">$249</span>
               </motion.p>
-              <motion.p 
+              <motion.p
                 className="text-xl sm:text-2xl text-primary/70 font-medium"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
               >
                 Специальное предложение:{" "}
-                <motion.span 
+                <motion.span
                   className="text-3xl sm:text-4xl font-light text-primary/80"
                   whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 400 }}
@@ -1679,14 +1728,147 @@ export default function LandingPage() {
             </div>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-stretch">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 items-stretch">
+            {/* Базовый тариф */}
+            <motion.div
+              variants={scaleIn}
+              className="bg-gradient-to-br from-slate-50/90 to-blue-50/70 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-slate-300 shadow-lg flex flex-col relative overflow-hidden group min-h-[600px]"
+              whileHover={{
+                scale: 1.02,
+                y: -5,
+                boxShadow: "0 20px 40px -12px rgba(59, 130, 246, 0.2)",
+              }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              {/* Enhanced hover overlay */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-blue-50/30 to-slate-50/20 opacity-0 group-hover:opacity-100"
+                transition={{ duration: 0.3 }}
+              />
+
+              <div className="relative z-10 flex flex-col h-full">
+                <div className="text-center mb-6 sm:mb-8">
+                  <h3 className="text-xl sm:text-2xl font-prata text-slate-700 mb-1">
+                    Базовый
+                  </h3>
+                  <p className="text-sm text-slate-600 mb-3 font-medium">
+                    "Самостоятельная работа"
+                  </p>
+                  <motion.div
+                    className="text-3xl sm:text-4xl font-light text-slate-600"
+                    whileHover={{ scale: 1.1, color: "hsl(215, 16%, 47%)" }}
+                    transition={{ type: "spring", stiffness: 400 }}
+                  >
+                    $29
+                  </motion.div>
+                </div>
+
+                <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-10 flex-grow">
+                  {[
+                    {
+                      text: "5 теоретических видеоуроков",
+                      icon: "🎓",
+                    },
+                    {
+                      text: "Рабочая тетрадь с упражнениями",
+                      icon: "📝",
+                    },
+                    {
+                      text: "Доступ к материалам на 30 дней",
+                      icon: "📂",
+                    },
+                    {
+                      text: "Без поддержки и чата",
+                      icon: "🚫",
+                    },
+                  ].map((feature, index) => (
+                    <motion.div
+                      key={index}
+                      className="flex items-start space-x-4"
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      whileHover={{ x: 3 }}
+                    >
+                      <motion.div
+                        className="w-10 h-10 bg-gradient-to-br from-blue-100 via-slate-100 to-blue-50 border border-blue-200/50 rounded-xl flex items-center justify-center flex-shrink-0 text-lg shadow-sm"
+                        whileHover={{
+                          scale: 1.15,
+                          rotate: [0, -5, 5, 0],
+                          backgroundColor: "rgba(59, 130, 246, 0.15)",
+                          borderColor: "rgba(59, 130, 246, 0.3)",
+                          boxShadow: "0 8px 25px -8px rgba(59, 130, 246, 0.3)",
+                        }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          duration: 0.6,
+                        }}
+                      >
+                        {feature.icon}
+                      </motion.div>
+                      <p className="text-slate-700 leading-relaxed text-sm sm:text-base">
+                        {feature.text}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+
+                <div className="mt-auto">
+                  <p className="text-slate-600 text-sm text-center mb-4 leading-relaxed">
+                    Для тех, кто хочет работать в своём темпе и без лишнего
+                    шума.
+                  </p>
+                  <motion.button
+                    className={`w-full ${
+                      loading
+                        ? "bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed"
+                        : "bg-gradient-to-r from-slate-500 to-slate-600"
+                    } text-white py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-medium transition-all duration-500 shadow-xl relative overflow-hidden group`}
+                    whileHover={{
+                      scale: loading ? 1 : 1.02,
+                      y: loading ? 0 : -3,
+                      boxShadow: loading
+                        ? undefined
+                        : "0 15px 35px -10px rgba(59, 130, 246, 0.3)",
+                    }}
+                    whileTap={{ scale: loading ? 1 : 0.98 }}
+                    onClick={() => !loading && redirectToCheckout("basic")}
+                    disabled={loading}
+                  >
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r to-transparent"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
+                      transition={{ duration: 0.6 }}
+                    />
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      {loading && (
+                        <motion.div
+                          className="w-4 h-4 rounded-full"
+                          animate={{ rotate: 360 }}
+                          transition={{
+                            duration: 1,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "linear",
+                          }}
+                        />
+                      )}
+                      {loading ? "ОБРАБОТКА..." : "ЗАПИСАТЬСЯ НА КУРС"}
+                    </span>
+                  </motion.button>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Стандарт тариф */}
             <motion.div
               variants={scaleIn}
               className="bg-white/90 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border border-primary/20 shadow-xl flex flex-col relative overflow-hidden group min-h-[600px]"
-              whileHover={{ 
-                scale: 1.03, 
+              whileHover={{
+                scale: 1.03,
                 y: -8,
-                boxShadow: "0 25px 50px -12px rgba(239, 68, 68, 0.25)"
+                boxShadow: "0 25px 50px -12px rgba(239, 68, 68, 0.25)",
               }}
               transition={{ type: "spring", stiffness: 300 }}
             >
@@ -1698,47 +1880,42 @@ export default function LandingPage() {
 
               <div className="relative z-10 flex flex-col h-full">
                 <div className="text-center mb-6 sm:mb-8">
-                  <h3 className="text-xl sm:text-2xl font-prata text-primary mb-2">
+                  <h3 className="text-xl sm:text-2xl font-prata text-primary mb-1">
                     Стандарт
                   </h3>
-                  <motion.div 
+                  <p className="text-sm text-primary/70 mb-3 font-medium">
+                    "Поддержка и сообщество"
+                  </p>
+                  <motion.div
                     className="text-3xl sm:text-4xl font-light text-primary/80"
                     whileHover={{ scale: 1.1, color: "hsl(var(--primary))" }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    $49
+                    $59
                   </motion.div>
                 </div>
 
                 <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-10 flex-grow">
                   {[
                     {
-                      text: "5 уроков теории — четкие, структурированные знания без воды",
-                      icon: "📚",
+                      text: "Всё из базового тарифа",
+                      icon: "✅",
                     },
                     {
-                      text: "5 практических занятий с проверенными техниками восстановления",
-                      icon: "✨",
-                    },
-                    {
-                      text: "Рабочая тетрадь с упражнениями для глубокой проработки",
-                      icon: "📝",
-                    },
-                    {
-                      text: "Доступ к материалам навсегда — возвращайтесь к ним в любой момент",
-                      icon: "♾️",
-                    },
-                    {
-                      text: "Поддержку единомышленниц в закрытом чате курса (конфиденциальность по вашему запросу)",
+                      text: "Доступ в закрытый чат с участницами",
                       icon: "💬",
                     },
                     {
-                      text: 'Бонус: Чек-лист "8 признаков, что отношения стоит сохранять"',
-                      icon: "🎁",
+                      text: "Ответы от автора на общие вопросы",
+                      icon: "👩‍🏫",
+                    },
+                    {
+                      text: "Пожизненный доступ к материалам",
+                      icon: "♾️",
                     },
                   ].map((feature, index) => (
-                    <motion.div 
-                      key={index} 
+                    <motion.div
+                      key={index}
                       className="flex items-start space-x-4"
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -1746,13 +1923,19 @@ export default function LandingPage() {
                       whileHover={{ x: 3 }}
                     >
                       <motion.div
-                        className="w-8 h-8 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl flex items-center justify-center flex-shrink-0 text-lg"
-                        whileHover={{ 
-                          scale: 1.2,
-                          rotate: [0, -10, 10, 0],
-                          backgroundColor: "rgba(239, 68, 68, 0.1)"
+                        className="w-10 h-10 bg-gradient-to-br from-rose-100 via-peach-100 to-rose-50 border border-rose-200/50 rounded-xl flex items-center justify-center flex-shrink-0 text-lg shadow-sm"
+                        whileHover={{
+                          scale: 1.15,
+                          rotate: [0, -5, 5, 0],
+                          backgroundColor: "rgba(239, 68, 68, 0.15)",
+                          borderColor: "rgba(239, 68, 68, 0.3)",
+                          boxShadow: "0 8px 25px -8px rgba(239, 68, 68, 0.3)",
                         }}
-                        transition={{ type: "spring", stiffness: 400, duration: 0.6 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          duration: 0.6,
+                        }}
                       >
                         {feature.icon}
                       </motion.div>
@@ -1764,18 +1947,25 @@ export default function LandingPage() {
                 </div>
 
                 <div className="mt-auto">
+                  <p className="text-primary/70 text-sm text-center mb-4 leading-relaxed">
+                    Поддержка и сообщество единомышленниц для комфортного
+                    восстановления.
+                  </p>
                   <motion.button
-                    className={`w-full ${loading 
-                      ? 'bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed' 
-                      : 'bg-gradient-to-r from-primary to-primary/80'
+                    className={`w-full ${
+                      loading
+                        ? "bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed"
+                        : "bg-gradient-to-r from-primary to-primary/80"
                     } text-primary-foreground py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-medium transition-all duration-500 shadow-xl relative overflow-hidden group`}
-                    whileHover={{ 
-                      scale: loading ? 1 : 1.02, 
+                    whileHover={{
+                      scale: loading ? 1 : 1.02,
                       y: loading ? 0 : -3,
-                      boxShadow: loading ? undefined : "0 15px 35px -10px rgba(239, 68, 68, 0.4)"
+                      boxShadow: loading
+                        ? undefined
+                        : "0 15px 35px -10px rgba(239, 68, 68, 0.4)",
                     }}
                     whileTap={{ scale: loading ? 1 : 0.98 }}
-                    onClick={() => !loading && redirectToCheckout('standard')}
+                    onClick={() => !loading && redirectToCheckout("standard")}
                     disabled={loading}
                   >
                     <motion.div
@@ -1789,35 +1979,40 @@ export default function LandingPage() {
                         <motion.div
                           className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
                           animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                          transition={{
+                            duration: 1,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "linear",
+                          }}
                         />
                       )}
-                      {loading ? 'ОБРАБОТКА...' : 'ЗАПИСАТЬСЯ НА КУРС СТАНДАРТ'}
+                      {loading ? "ОБРАБОТКА..." : "ЗАПИСАТЬСЯ НА КУРС"}
                     </span>
                   </motion.button>
                 </div>
               </div>
             </motion.div>
 
+            {/* VIP тариф */}
             <motion.div
               variants={scaleIn}
               className="bg-gradient-to-br from-softred-50/80 to-peach-50/60 backdrop-blur-sm rounded-3xl p-8 sm:p-10 border-2 border-softred-200 shadow-2xl relative overflow-hidden flex flex-col group min-h-[600px]"
-              whileHover={{ 
-                scale: 1.03, 
+              whileHover={{
+                scale: 1.03,
                 y: -8,
-                boxShadow: "0 30px 60px -12px rgba(232, 93, 93, 0.3)"
+                boxShadow: "0 30px 60px -12px rgba(232, 93, 93, 0.3)",
               }}
               transition={{ type: "spring", stiffness: 300 }}
             >
               {/* Popular badge with animation */}
-              <motion.div 
+              <motion.div
                 className="absolute top-4 right-4 bg-softred-500 text-white px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium"
-                animate={{ 
+                animate={{
                   scale: [1, 1.05, 1],
                   boxShadow: [
                     "0 0 0 0 rgba(232, 93, 93, 0.7)",
                     "0 0 0 10px rgba(232, 93, 93, 0)",
-                  ]
+                  ],
                 }}
                 transition={{
                   duration: 2,
@@ -1835,47 +2030,38 @@ export default function LandingPage() {
 
               <div className="relative z-10 flex flex-col h-full">
                 <div className="text-center mb-6 sm:mb-8">
-                  <h3 className="text-xl sm:text-2xl font-prata text-softred-700 mb-2">
+                  <h3 className="text-xl sm:text-2xl font-prata text-softred-700 mb-1">
                     VIP
                   </h3>
-                  <motion.div 
+                  <p className="text-sm text-softred-600 mb-3 font-medium">
+                    "Личное сопровождение"
+                  </p>
+                  <motion.div
                     className="text-3xl sm:text-4xl font-light text-softred-600"
                     whileHover={{ scale: 1.1, color: "hsl(0, 69%, 57%)" }}
                     transition={{ type: "spring", stiffness: 400 }}
                   >
-                    $100
+                    $129
                   </motion.div>
                 </div>
 
                 <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-10 flex-grow">
                   {[
                     {
-                      text: "Всё, что в тарифе \"Стандарт\"",
-                      icon: "⭐",
+                      text: "Всё из тарифа «Стандарт»",
+                      icon: "🌟",
                     },
                     {
-                      text: "Индивидуальная консультация с автором курса (60 минут)",
-                      icon: "💝",
+                      text: "Индивидуальная консультация (60 минут)",
+                      icon: "🧭",
                     },
                     {
-                      text: "Персональная обратная связь по домашним заданиям (в течение месяца)",
-                      icon: "💌",
-                    },
-                    {
-                      text: "Приоритетная поддержка в чате курса",
-                      icon: "👑",
-                    },
-                    {
-                      text: "Дополнительные материалы и техники для VIP-участниц",
-                      icon: "🎨",
-                    },
-                    {
-                      text: "Возможность задать личные вопросы автору курса",
-                      icon: "🌹",
+                      text: "Возможность задать личные вопросы напрямую",
+                      icon: "📩",
                     },
                   ].map((feature, index) => (
-                    <motion.div 
-                      key={index} 
+                    <motion.div
+                      key={index}
                       className="flex items-start space-x-4"
                       initial={{ opacity: 0, x: -20 }}
                       whileInView={{ opacity: 1, x: 0 }}
@@ -1883,13 +2069,17 @@ export default function LandingPage() {
                       whileHover={{ x: 3 }}
                     >
                       <motion.div
-                        className="w-8 h-8 bg-gradient-to-br from-softred-400 to-softred-300 rounded-xl flex items-center justify-center flex-shrink-0 text-lg shadow-md"
-                        whileHover={{ 
+                        className="w-10 h-10 bg-gradient-to-br from-softred-400 to-softred-300 border border-softred-400/30 rounded-xl flex items-center justify-center flex-shrink-0 text-lg shadow-md"
+                        whileHover={{
                           scale: 1.2,
                           rotate: [0, -10, 10, 0],
-                          backgroundColor: "rgba(232, 93, 93, 0.4)"
+                          backgroundColor: "rgba(232, 93, 93, 0.4)",
                         }}
-                        transition={{ type: "spring", stiffness: 400, duration: 0.6 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 400,
+                          duration: 0.6,
+                        }}
                       >
                         {feature.icon}
                       </motion.div>
@@ -1901,18 +2091,25 @@ export default function LandingPage() {
                 </div>
 
                 <div className="mt-auto">
+                  <p className="text-softred-600 text-sm text-center mb-4 leading-relaxed">
+                    Для тех, кто хочет глубоко, прицельно и под чутким
+                    вниманием.
+                  </p>
                   <motion.button
-                    className={`w-full ${loading 
-                      ? 'bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed' 
-                      : 'bg-gradient-to-r from-softred-500 via-softred-600 to-rose-600'
+                    className={`w-full ${
+                      loading
+                        ? "bg-gradient-to-r from-gray-400 to-gray-500 cursor-not-allowed"
+                        : "bg-gradient-to-r from-softred-500 via-softred-600 to-rose-600"
                     } text-white py-3 sm:py-4 rounded-2xl text-base sm:text-lg font-medium transition-all duration-500 shadow-xl relative overflow-hidden group`}
-                    whileHover={{ 
-                      scale: loading ? 1 : 1.02, 
+                    whileHover={{
+                      scale: loading ? 1 : 1.02,
                       y: loading ? 0 : -3,
-                      boxShadow: loading ? undefined : "0 20px 40px -10px rgba(232, 93, 93, 0.5)"
+                      boxShadow: loading
+                        ? undefined
+                        : "0 20px 40px -10px rgba(232, 93, 93, 0.5)",
                     }}
                     whileTap={{ scale: loading ? 1 : 0.98 }}
-                    onClick={() => !loading && redirectToCheckout('vip')}
+                    onClick={() => !loading && redirectToCheckout("vip")}
                     disabled={loading}
                   >
                     <motion.div
@@ -1926,10 +2123,14 @@ export default function LandingPage() {
                         <motion.div
                           className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
                           animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                          transition={{
+                            duration: 1,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "linear",
+                          }}
                         />
                       )}
-                      {loading ? 'ОБРАБОТКА...' : 'ЗАПИСАТЬСЯ НА КУРС VIP'}
+                      {loading ? "ОБРАБОТКА..." : "ЗАПИСАТЬСЯ НА КУРС"}
                     </span>
                   </motion.button>
                 </div>
@@ -2170,23 +2371,23 @@ export default function LandingPage() {
       <motion.div
         className="fixed bottom-6 right-6 z-50"
         initial={{ opacity: 0, scale: 0, y: 100 }}
-        animate={{ 
-          opacity: showFloatingCTA ? 1 : 0, 
+        animate={{
+          opacity: showFloatingCTA ? 1 : 0,
           scale: showFloatingCTA ? 1 : 0,
-          y: showFloatingCTA ? 0 : 100
+          y: showFloatingCTA ? 0 : 100,
         }}
-        transition={{ 
-          type: "spring", 
-          stiffness: 300, 
-          damping: 30 
+        transition={{
+          type: "spring",
+          stiffness: 300,
+          damping: 30,
         }}
       >
         <motion.button
           className="bg-gradient-to-r from-softred-500 via-peach-500 to-rose-500 text-white px-6 py-3 rounded-full shadow-2xl font-semibold text-sm sm:text-base flex items-center gap-2 backdrop-blur-sm border-2 border-white/30 relative overflow-hidden group"
-          whileHover={{ 
+          whileHover={{
             scale: 1.05,
             boxShadow: "0 25px 50px -12px rgba(239, 68, 68, 0.6)",
-            borderColor: "rgba(255, 255, 255, 0.5)"
+            borderColor: "rgba(255, 255, 255, 0.5)",
           }}
           whileTap={{ scale: 0.95 }}
           onClick={scrollToPricing}
@@ -2198,14 +2399,14 @@ export default function LandingPage() {
           />
           <motion.div className="relative z-10 flex items-center gap-2">
             <motion.div
-              animate={{ 
+              animate={{
                 rotate: [0, 10, -10, 0],
-                scale: [1, 1.1, 1]
+                scale: [1, 1.1, 1],
               }}
-              transition={{ 
+              transition={{
                 duration: 2,
                 repeat: Number.POSITIVE_INFINITY,
-                repeatDelay: 3
+                repeatDelay: 3,
               }}
             >
               💝
@@ -2213,9 +2414,9 @@ export default function LandingPage() {
             Получить курс
             <motion.div
               animate={{ x: [0, 3, 0] }}
-              transition={{ 
-                duration: 1.5, 
-                repeat: Number.POSITIVE_INFINITY 
+              transition={{
+                duration: 1.5,
+                repeat: Number.POSITIVE_INFINITY,
               }}
             >
               →
@@ -2226,10 +2427,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-
-
-
-
-
-
