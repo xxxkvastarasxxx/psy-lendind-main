@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
+import { Prata } from "next/font/google";
 import "./globals.css";
+
+const prata = Prata({
+  subsets: ["latin", "cyrillic"],
+  weight: "400",
+  variable: "--font-prata",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://psy-lending.netlify.app'),
@@ -60,7 +68,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ru" suppressHydrationWarning>
-      <body>{children}</body>
+      <body className={prata.variable}>{children}</body>
     </html>
   );
 }

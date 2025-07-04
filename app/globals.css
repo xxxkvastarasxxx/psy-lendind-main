@@ -142,6 +142,14 @@ body {
     --sidebar-accent-foreground: 217 91% 25%;
     --sidebar-border: 217 50% 75%;
     --sidebar-ring: 217 91% 35%;
+    --burgundy: 347 68% 37%;
+    --burgundy-foreground: 0 0% 98%;
+    --royal: 300 76% 72%;
+    --royal-foreground: 300 100% 5%;
+    --peach: 25 89% 74%;
+    --peach-foreground: 25 25% 15%;
+    --softred: 0 69% 67%;
+    --softred-foreground: 0 0% 98%;
   }
   .dark {
     --background: 0 0% 3.9%;
