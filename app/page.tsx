@@ -701,7 +701,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto text-center relative z-10 py-4 sm:py-2">
           {/* Optimized hero content with grouped animations */}
           <motion.div variants={fadeInUp} className="mb-4 sm:mb-4 md:mb-6">
-            <h1 className="text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-prata font-medium text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-prata font-medium text-primary mb-3 sm:mb-2 md:mb-3 leading-tight px-1">
               <span className="block">Скорая помощь</span>
               <span className="block text-primary/70 font-medium mt-0 md:mt-2">
                 при измене
@@ -1574,7 +1574,7 @@ export default function LandingPage() {
 
           <motion.div variants={fadeInUp} className="mt-12">
             <div className="bg-gradient-to-r from-secondary/50 to-muted/50 backdrop-blur-sm p-4 sm:p-6 rounded-2xl border border-primary/20">
-              <p className="text-base sm:text-lg text-primary/80 leading-relaxed text-center">
+              <p className="text-base sm:text-lg text-primary/80 leading-relaxed text-left">
                 В отличие от общих психологических программ или книг по
                 самопомощи, мини-курс "Скорая помощь при измене" создан
                 специально для женщин, переживающих измену партнера. Методика
@@ -1719,7 +1719,7 @@ export default function LandingPage() {
                   whileHover={{ scale: 1.1 }}
                   transition={{ type: "spring", stiffness: 400 }}
                 >
-                  $49
+                  $29
                 </motion.span>
               </motion.p>
             </div>
