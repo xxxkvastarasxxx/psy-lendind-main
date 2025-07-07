@@ -46,20 +46,13 @@ function SuccessContent() {
             Оплата прошла успешно!
           </h1>
           
-          <p className="text-gray-600 mb-8">
-            Спасибо за покупку курса! В ближайшее время на вашу почту придет письмо с доступом к материалам.
-          </p>
+            <div className="text-gray-600 mb-8 space-y-2">
+            <p>Спасибо за покупку курса!</p>
+            <p>Ваша ссылка на доступ к курсу:</p>
+            <p className="font-medium text-blue-600 break-all">https://t.me/SvetlanaTsyganova_bot?start=w41560900</p>
+            </div>
           
           <div className="space-y-4">
-            <div className="flex items-center space-x-3 text-sm text-gray-600">
-              <Mail className="w-5 h-5 text-primary" />
-              <span>Проверьте вашу электронную почту</span>
-            </div>
-            
-            <div className="flex items-center space-x-3 text-sm text-gray-600">
-              <Download className="w-5 h-5 text-primary" />
-              <span>Материалы будут доступны в течение 24 часов</span>
-            </div>
             
             <div className="flex items-center space-x-3 text-sm text-gray-600">
               <Heart className="w-5 h-5 text-primary" />
