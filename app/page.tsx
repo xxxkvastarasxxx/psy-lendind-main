@@ -862,26 +862,47 @@ export default function LandingPage() {
               variants={staggerContainer}
             >
               {[
-                { text: "25 лет опыта", color: "bg-primary" },
-                { text: "1000+ женщин", color: "bg-secondary" },
-                { text: "Научный подход", color: "bg-muted" },
+                { text: "25 лет опыта", color: "bg-gradient-to-r from-primary to-primary/80", bgColor: "from-blue-50 to-indigo-50" },
+                { text: "1000+ женщин", color: "bg-gradient-to-r from-secondary to-secondary/80", bgColor: "from-pink-50 to-rose-50" },
+                { text: "Научный подход", color: "bg-gradient-to-r from-amber-200 to-orange-200", bgColor: "from-amber-50 to-orange-50" },
               ].map((item, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-center space-x-2 px-4 py-2 rounded-full bg-white/50 backdrop-blur-sm border border-white/30 shadow-lg"
+                  className={`flex items-center space-x-3 px-5 py-3 bg-gradient-to-r ${item.bgColor} backdrop-blur-sm border border-white/40 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
                   variants={listItemVariants}
-                  whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -2 }}
+                  whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -3 }}
+                  style={{
+                    borderRadius: '12px',
+                  }}
                 >
+                  {/* Subtle shine effect */}
                   <motion.div
-                    className={`w-3 h-3 sm:w-2.5 sm:h-2.5 ${item.color} rounded-full shadow-md`}
-                    animate={shouldReduceMotion ? {} : { scale: [1, 1.2, 1] }}
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
                     transition={{
-                      duration: 2,
+                      duration: 3,
                       repeat: Infinity,
-                      delay: index * 0.3,
+                      delay: index * 0.5,
                     }}
                   />
-                  <span className="text-sm sm:text-sm font-medium">
+                  
+                  <motion.div
+                    className={`w-4 h-4 sm:w-3.5 sm:h-3.5 ${item.color} shadow-lg relative z-10`}
+                    animate={shouldReduceMotion ? {} : { 
+                      scale: [1, 1.15, 1],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{
+                      duration: 2.5,
+                      repeat: Infinity,
+                      delay: index * 0.4,
+                    }}
+                    style={{
+                      borderRadius: '3px',
+                    }}
+                  />
+                  <span className="text-sm sm:text-sm font-semibold text-gray-700 relative z-10">
                     {item.text}
                   </span>
                 </motion.div>
@@ -891,14 +912,14 @@ export default function LandingPage() {
 
           <motion.div variants={scaleIn}>
             <motion.button
-              className="bg-primary text-primary-foreground px-8 sm:px-10 py-3 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-700 shadow-xl hover:shadow-2xl relative overflow-hidden group"
+              className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 sm:px-10 py-3 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-700 shadow-xl hover:shadow-2xl relative overflow-hidden group"
               whileHover={
                 shouldReduceMotion
                   ? {}
                   : {
                       scale: 1.05,
                       y: -2,
-                      boxShadow: "0 20px 40px -12px rgba(239, 68, 68, 0.5)",
+                      boxShadow: "0 20px 40px -12px rgba(249, 115, 22, 0.5)",
                     }
               }
               whileTap={{ scale: 0.98 }}
