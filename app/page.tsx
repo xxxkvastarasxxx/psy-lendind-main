@@ -858,7 +858,7 @@ export default function LandingPage() {
 
           <motion.div variants={slideInLeft} className="mb-5 sm:mb-4 md:mb-6">
             <motion.div
-              className="flex flex-wrap justify-center gap-5 sm:gap-6 text-primary/70"
+              className="flex flex-wrap justify-center gap-3 sm:gap-6 text-primary/70"
               variants={staggerContainer}
             >
               {[
@@ -868,7 +868,7 @@ export default function LandingPage() {
               ].map((item, index) => (
                 <motion.div
                   key={index}
-                  className={`flex items-center space-x-3 px-5 py-3 bg-gradient-to-r ${item.bgColor} backdrop-blur-sm border border-white/40 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
+                  className={`flex items-center space-x-2 sm:space-x-3 px-3 sm:px-5 py-2 sm:py-3 bg-gradient-to-r ${item.bgColor} backdrop-blur-sm border border-white/40 shadow-lg hover:shadow-xl transition-all duration-300 relative overflow-hidden`}
                   variants={listItemVariants}
                   whileHover={shouldReduceMotion ? {} : { scale: 1.05, y: -3 }}
                   style={{
@@ -888,7 +888,7 @@ export default function LandingPage() {
                   />
                   
                   <motion.div
-                    className={`w-4 h-4 sm:w-3.5 sm:h-3.5 ${item.color} shadow-lg relative z-10`}
+                    className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${item.color} shadow-lg relative z-10`}
                     animate={shouldReduceMotion ? {} : { 
                       scale: [1, 1.15, 1],
                       rotate: [0, 5, -5, 0]
@@ -902,7 +902,7 @@ export default function LandingPage() {
                       borderRadius: '3px',
                     }}
                   />
-                  <span className="text-sm sm:text-sm font-semibold text-gray-700 relative z-10">
+                  <span className="text-xs sm:text-sm font-semibold text-gray-700 relative z-10">
                     {item.text}
                   </span>
                 </motion.div>
