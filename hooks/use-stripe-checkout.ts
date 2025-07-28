@@ -132,7 +132,7 @@ export const useStripeCheckout = () => {
       }
 
       // Redirect to success page
-      window.location.href = `/success?session_id=${data.sessionId}`;
+      window.location.href = `/success?session_id=${data.sessionId}&course=${courseType}`;
     } catch (error: any) {
       console.error("Checkout error:", error);
 
@@ -154,7 +154,7 @@ export const useStripeCheckout = () => {
       );
 
       // Still show success page for demo
-      window.location.href = `/success?session_id=demo_error_${courseType}_${Date.now()}`;
+      window.location.href = `/success?session_id=demo_error_${courseType}_${Date.now()}&course=${courseType}`;
     } finally {
       clearTimeout(timeoutId);
 

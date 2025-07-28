@@ -25,6 +25,7 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useStripeCheckout } from "@/hooks/use-stripe-checkout";
+import { useSearchParams } from "next/navigation";
 
 // Add CSS keyframes for testimonial carousel
 const styles = `
@@ -426,13 +427,22 @@ export default function LandingPage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const { redirectToCheckout, loading, resetLoading } = useStripeCheckout();
   const shouldReduceMotion = useReducedMotion();
+  const searchParams = useSearchParams();
 
   // Client-side detection
   useEffect(() => {
     setIsClient(true);
     // Reset loading state when component mounts
     resetLoading();
-  }, [resetLoading]);
+
+    // Handle canceled payment redirect
+    const canceled = searchParams.get('canceled');
+    if (canceled === 'true') {
+      // Redirect to payment failed page with appropriate parameters
+      const courseType = searchParams.get('course') || 'basic';
+      window.location.href = `/payment-failed?reason=canceled&course=${courseType}`;
+    }
+  }, [resetLoading, searchParams]);
 
   // Function to scroll to pricing section
   const scrollToPricing = useCallback(() => {

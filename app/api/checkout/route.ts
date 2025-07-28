@@ -109,8 +109,8 @@ export async function POST(request: NextRequest) {
         mode: "payment",
         success_url: `${request.headers.get(
           "origin"
-        )}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${request.headers.get("origin")}/?canceled=true`,
+        )}/success?session_id={CHECKOUT_SESSION_ID}&course=${courseType}`,
+        cancel_url: `${request.headers.get("origin")}/payment-failed?reason=canceled&course=${courseType}`,
         metadata: {
           courseType,
         },
