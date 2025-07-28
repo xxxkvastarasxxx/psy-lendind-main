@@ -23,7 +23,7 @@ import {
   HelpCircle,
   ChevronDown,
 } from "lucide-react";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, Suspense } from "react";
 import { useStripeCheckout } from "@/hooks/use-stripe-checkout";
 import { useSearchParams } from "next/navigation";
 
@@ -419,6 +419,21 @@ function TestimonialsCarousel() {
 }
 
 export default function LandingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-primary/70 font-medium">Загрузка...</p>
+        </div>
+      </div>
+    }>
+      <LandingPageContent />
+    </Suspense>
+  );
+}
+
+function LandingPageContent() {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
