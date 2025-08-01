@@ -35,14 +35,6 @@ const styles = `
   }
 `;
 
-// Inject styles into document head
-if (typeof window !== "undefined") {
-  const styleSheet = document.createElement("style");
-  styleSheet.type = "text/css";
-  styleSheet.innerText = styles;
-  document.head.appendChild(styleSheet);
-}
-
 // Enhanced SparkleEffects component with hydration-safe implementation and reduced motion support
 function SparkleEffects({ count = 15 }) {
   const [sparkles, setSparkles] = useState<
@@ -447,6 +439,13 @@ function LandingPageContent() {
   // Client-side detection
   useEffect(() => {
     setIsClient(true);
+    
+    // Inject CSS styles for testimonial carousel
+    const styleSheet = document.createElement("style");
+    styleSheet.type = "text/css";
+    styleSheet.innerText = styles;
+    document.head.appendChild(styleSheet);
+    
     // Reset loading state when component mounts
     resetLoading();
 
